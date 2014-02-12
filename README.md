@@ -22,10 +22,6 @@ There are many questions we have no answer at the moment and we should be able t
 
 * Know C#
 
-* Have your own AWS Account and Secret Keys
-
-* Setup your own AWS Queue
-
 # How about the database?
 
 * I have made my MongoDB database public, including a user with read/write permissions so we can all use and populate the same database
