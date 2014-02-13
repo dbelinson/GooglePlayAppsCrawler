@@ -68,10 +68,13 @@ namespace PlayStoreWorker
                         bool ProcessingWorked = true;
 
                         // Sanity Check
-                        if (String.IsNullOrEmpty(response) || server.StatusCode != System.Net.HttpStatusCode.OK)
+                        if (String.IsNullOrEmpty (response) || server.StatusCode != System.Net.HttpStatusCode.OK)
                         {
                             LogWriter.Info("Error opening app page : " + appUrl);
                             ProcessingWorked = false;
+                            
+                            // Hiccup to avoid google blocking connections in case of heavy traffic from the same IP
+                            Thread.Sleep (10000);
                         }
                         else
                         {
