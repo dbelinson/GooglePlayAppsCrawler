@@ -47,22 +47,22 @@ namespace PlayStoreWorker
                         string appUrl = Consts.APP_URL_PREFIX + app.Url;
 
                         // Checking if this app is on the database already
-                        if (mongoDB.AppProcessed (appUrl))
+                        if (mongoDB.AppProcessed(appUrl))
                         {
                             // Console Feedback, Comment this line to disable if you want to
-                            Console.WriteLine ("Duplicated App, skipped.");
+                            Console.WriteLine("Duplicated App, skipped.");
 
                             // Delete it from the queue and continues the loop
-                            mongoDB.RemoveFromQueue (appUrl);
+                            mongoDB.RemoveFromQueue(appUrl);
                             continue;
                         }
 
                         // Configuring server and Issuing Request
-                        server.Headers.Add (Consts.ACCEPT_LANGUAGE);
-                        server.Host              = Consts.HOST;
-                        server.Encoding          = "utf-8";
+                        server.Headers.Add(Consts.ACCEPT_LANGUAGE);
+                        server.Host = Consts.HOST;
+                        server.Encoding = "utf-8";
                         server.EncodingDetection = WebRequests.CharsetDetection.DefaultCharset;
-                        string response          = server.Get(appUrl);
+                        string response = server.Get(appUrl);
 
                         // Flag Indicating Success while processing and parsing this app
                         bool ProcessingWorked = true;
@@ -70,7 +70,7 @@ namespace PlayStoreWorker
                         // Sanity Check
                         if (String.IsNullOrEmpty(response) || server.StatusCode != System.Net.HttpStatusCode.OK)
                         {
-                            LogWriter.Info ("Error opening app page : " + appUrl);
+                            LogWriter.Info("Error opening app page : " + appUrl);
                             ProcessingWorked = false;
                         }
                         else
@@ -88,21 +88,21 @@ namespace PlayStoreWorker
                             // so that other workers can try to process it later
                             if (!ProcessingWorked)
                             {
-                                mongoDB.ToggleBusyApp (app, false);
+                                mongoDB.ToggleBusyApp(app, false);
                             }
                             else // On the other hand, if processing worked, removes it from the database
                             {
                                 // Console Feedback, Comment this line to disable if you want to
-                                Console.WriteLine ("Inserted App : " + parsedApp.Name);
+                                Console.WriteLine("Inserted App : " + parsedApp.Name);
 
-                                mongoDB.RemoveFromQueue (app.Url);
+                                mongoDB.RemoveFromQueue(app.Url);
                             }
 
                             // Counters for console feedback only
                             int extraAppsCounter = 0, newExtraApps = 0;
 
                             // Parsing "Related Apps" and "More From Developer" Apps (URLS Only)
-                            foreach (string extraAppUrl in parser.ParseExtraApps(response))
+                            foreach (string extraAppUrl in parser.ParseExtraApps (response))
                             {
                                 // Incrementing counter of extra apps
                                 extraAppsCounter++;
@@ -111,7 +111,7 @@ namespace PlayStoreWorker
                                 string fullExtraAppUrl = Consts.APP_URL_PREFIX + extraAppUrl;
 
                                 // Checking if the app was either processed or queued to be processed already
-                                if ((!mongoDB.AppProcessed (fullExtraAppUrl)) && (!mongoDB.IsAppOnQueue (extraAppUrl)))
+                                if ((!mongoDB.AppProcessed (fullExtraAppUrl)) && (!mongoDB.IsAppOnQueue(extraAppUrl)))
                                 {
                                     // Incrementing counter of inserted apps
                                     newExtraApps++;
@@ -127,10 +127,12 @@ namespace PlayStoreWorker
                     }
                     catch (Exception ex)
                     {
+                        LogWriter.Error (ex);
+                    }
+                    finally
+                    {
                         // Toggles Busy status back to false
                         mongoDB.ToggleBusyApp (app, false);
-
-                        LogWriter.Error (ex);
                     }
                 }
             }
