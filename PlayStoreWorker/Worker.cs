@@ -53,7 +53,7 @@ namespace PlayStoreWorker
                             Console.WriteLine("Duplicated App, skipped.");
 
                             // Delete it from the queue and continues the loop
-                            mongoDB.RemoveFromQueue(appUrl);
+                            mongoDB.RemoveFromQueue (app.Url);
                             continue;
                         }
 
