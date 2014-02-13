@@ -95,7 +95,7 @@ namespace SharedLibrary.MongoDB
         {
             var mongoQuery    = Query.EQ ("Url", appUrl);
 
-            var queryResponse = _database.GetCollection<QueuedApp>(Consts.QUEUED_APPS_COLLECTION).FindOne(mongoQuery);
+            var queryResponse = _database.GetCollection<QueuedApp> (Consts.QUEUED_APPS_COLLECTION).FindOne (mongoQuery);
 
             return queryResponse == null ? false : true;
         }
@@ -147,7 +147,7 @@ namespace SharedLibrary.MongoDB
             var mongoQuery      = Query.EQ ("Url", app.Url);
             var updateStatement = Update.Set ("IsBusy", busyStatus);
 
-            _database.GetCollection<QueuedApp>(Consts.QUEUED_APPS_COLLECTION).FindAndModify (mongoQuery, null, updateStatement, false);
+            _database.GetCollection<QueuedApp> (Consts.QUEUED_APPS_COLLECTION).Update (mongoQuery, updateStatement);
         }
 
         /// <summary>
