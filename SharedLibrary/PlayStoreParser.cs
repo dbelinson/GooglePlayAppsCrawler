@@ -239,7 +239,7 @@ namespace SharedLibrary
                     // TryParse raises no exception. Its safer
                     if (Double.TryParse(stringSize.Replace ("G", "").Replace ("g", "") , out appSize))
                     {
-                        parsedApp.AppSize = appSize * 1000; // Normalizing Gygabites to Megabytes
+                        parsedApp.AppSize = appSize * 1024; // Normalizing Gygabites to Megabytes
                     }
                 }
                 else if (stringSize.EndsWith ("K", StringComparison.InvariantCultureIgnoreCase)) // Kbs
@@ -247,7 +247,7 @@ namespace SharedLibrary
                     // TryParse raises no exception. Its safer
                     if (Double.TryParse (stringSize.Replace ("K", "").Replace ("k", ""), out appSize))
                     {
-                        parsedApp.AppSize = appSize / 1000; // Normalizing Kbs to Megabytes
+                        parsedApp.AppSize = appSize / 1024; // Normalizing Kbs to Megabytes
                     }
                 }
                 else
