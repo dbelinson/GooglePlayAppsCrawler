@@ -164,9 +164,8 @@ namespace SharedLibrary
             currentNode           = map.DocumentNode.SelectSingleNode (Consts.APP_DESCRIPTION);
             parsedApp.Description = currentNode == null ? String.Empty : currentNode.InnerText.Trim ();
 
-            // Checking for In app Purchases (NOT FULLY ACCURATE)
-            if (parsedApp.Description.IndexOf ("purchase", StringComparison.InvariantCultureIgnoreCase) > 0
-             || parsedApp.Description.IndexOf ("freemium", StringComparison.InvariantCultureIgnoreCase) > 0)
+            // Checking for In app Purchases 
+            if (map.DocumentNode.SelectSingleNode (Consts.IN_APP_PURCHASE) != null)
             {
                 parsedApp.HaveInAppPurchases = true;
             }

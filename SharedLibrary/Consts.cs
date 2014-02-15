@@ -43,7 +43,8 @@ namespace SharedLibrary
         public static readonly string APP_INSTALLS       = "//div[@class='content' and @itemprop='numDownloads']";
         public static readonly string APP_CONTENT_RATING = "//div[@class='content' and @itemprop='contentRating']";
         public static readonly string APP_OS_REQUIRED    = "//div[@class='content' and @itemprop='operatingSystems']";
-        public static readonly string EXTRA_APPS       = "//div[@class='card-content id-track-click id-track-impression']/a[@class='card-click-target']";
+        public static readonly string EXTRA_APPS         = "//div[@class='card-content id-track-click id-track-impression']/a[@class='card-click-target']";
+        public static readonly string IN_APP_PURCHASE    = "//div[@class='info-container']/div[@class='inapp-msg']";
 
         // HTML Values
         public static readonly string NO_RESULT_MESSAGE = "Nenhum resultado para sua pesquisa"; // TODO: CHANGE THIS TO YOUR OWN LANGUAGE. 
