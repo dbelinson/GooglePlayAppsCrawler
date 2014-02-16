@@ -65,7 +65,7 @@ namespace PlayStoreWorker
                     server.Host = Consts.HOST;
                     server.Encoding = "utf-8";
                     server.EncodingDetection = WebRequests.CharsetDetection.DefaultCharset;
-                    string response = server.Get(appUrl);
+                    string response = server.Get (appUrl);
 
                     // Flag Indicating Success while processing and parsing this app
                     bool ProcessingWorked = true;
@@ -81,6 +81,8 @@ namespace PlayStoreWorker
 
                         // Inc. retry counter
                         retryCounter++;
+
+                        Console.WriteLine ("Retrying:" + retryCounter);
 
                         // Checking for maximum retry count
                         int waitTime;
@@ -157,8 +159,17 @@ namespace PlayStoreWorker
                 }
                 finally
                 {
-                    // Toggles Busy status back to false
-                    mongoDB.ToggleBusyApp (app, false);
+                    try
+                    {
+                        // Toggles Busy status back to false
+                        mongoDB.ToggleBusyApp(app, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        // Toggle Busy App may raise an exception in case of lack of internet connection, so, i must use this
+                        // "inner catch" to avoid it from happenning
+                        LogWriter.Error (ex);
+                    }
                 }
             }
         }
