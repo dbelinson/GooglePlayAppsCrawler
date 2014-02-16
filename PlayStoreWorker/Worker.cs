@@ -85,23 +85,24 @@ namespace PlayStoreWorker
                         Console.WriteLine ("Retrying:" + retryCounter);
 
                         // Checking for maximum retry count
-                        int waitTime;
+                        double waitTime;
                         if (retryCounter >= 11)
                         {
-                            waitTime = TimeSpan.FromMinutes (35).Milliseconds;
+                            waitTime = TimeSpan.FromMinutes (35).TotalMilliseconds;
                         }
                         else
                         {
                             // Calculating next wait time ( 2 ^ retryCounter seconds)
-                            waitTime = TimeSpan.FromSeconds (Math.Pow (2, retryCounter)).Milliseconds;
+                            waitTime = TimeSpan.FromSeconds (Math.Pow (2, retryCounter)).TotalMilliseconds;
                         }
 
                         // Hiccup to avoid google blocking connections in case of heavy traffic from the same IP
-                        Thread.Sleep (waitTime);
+                        Thread.Sleep (Convert.ToInt32 (waitTime));
                     }
                     else
                     {
                         // Reseting retry counter
+                        retryCounter = 0;
 
                         // Parsing Useful App Data
                         AppModel parsedApp = parser.ParseAppPage(response, appUrl);
