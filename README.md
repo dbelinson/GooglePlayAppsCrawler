@@ -30,9 +30,3 @@ There are many questions we have no answer at the moment and we should be able t
 
 
 **Refer to the Pages section of this wiki for individual information about each aspect of the project.**
-
-<script src="paypal-button.min.js?merchant=YOUR_MERCHANT_ID"
-    data-button="buynow"
-    data-name="My product"
-    data-amount="1.00"
-></script>
