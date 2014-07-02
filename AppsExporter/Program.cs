@@ -34,12 +34,13 @@ namespace AppsExporter
             int processedApps = 0;
 
             // Configuring Log Object Threshold
-            LogWriter.Threshold = TLogEventLevel.Information;            
-            LogWriter.Info("Checking Arguments");
+            LogWriter.Threshold = TLogEventLevel.Information;
             
             // Overriding LogWriter Event
             LogWriter.LogEvent += LogWriter_LogEvent;
-
+            
+            LogWriter.Info("Checking Arguments");
+            
             // Periodic Log Timer
             Timer loggingThread = new Timer((TimerCallback) =>
             {
