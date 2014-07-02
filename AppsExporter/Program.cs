@@ -99,6 +99,9 @@ namespace AppsExporter
                 }
             }
 
+            // Logging end of the Process
+            LogWriter.Info ("Finished Exporting Database");
+
             // Removing Event
             LogWriter.LogEvent -= LogWriter_LogEvent;
         }
