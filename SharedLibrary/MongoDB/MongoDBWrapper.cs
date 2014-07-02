@@ -56,6 +56,16 @@ namespace SharedLibrary.MongoDB
         }
 
         /// <summary>
+        /// Finds all the record of a certain collection, of a certain type T.
+        /// </summary>
+        /// <typeparam name="T">Type of the model that maps this collection</typeparam>
+        /// <returns>IEnumerable of the type selected</returns>
+        public IEnumerable<T> FindAll<T> ()
+        {
+            return _database.GetCollection<T> (_collectionName).FindAll ();
+        }
+
+        /// <summary>
         /// Checks whether an app with the same URL
         /// already exists into the database
         /// </summary>

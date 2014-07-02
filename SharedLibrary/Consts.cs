@@ -61,7 +61,7 @@ namespace SharedLibrary
         // MongoDB
                                                              // TODO: CHANGE TO YOUR OWN SERVER CREDENTIALS IF NEEDED
                                                              // PLEASE NOTE THAT THIS USER HAS READWRITE PERMISSIONS TO THE APPS DATABASE, SO USE IT CAREFULLY
-        public static readonly string MONGO_SERVER           = "ec2-54-208-188-27.compute-1.amazonaws.com"; 
+        public static readonly string MONGO_SERVER           = "ec2-54-88-152-45.compute-1.amazonaws.com"; 
         public static readonly string MONGO_PORT             = "21766";
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
