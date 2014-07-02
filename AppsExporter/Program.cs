@@ -85,9 +85,16 @@ namespace AppsExporter
                 // Reading all apps from the database
                 foreach (AppModel app in mongoDB.FindAll<AppModel>())
                 {
-                    // Writing line to File
-                    sWriter.WriteLine (app.ToString ());
-                    processedApps++;
+                    try
+                    {
+                        // Writing line to File
+                        sWriter.WriteLine (app.ToString ());
+                        processedApps++;
+                    }
+                    catch (Exception ex)
+                    {
+                        LogWriter.Error (ex);
+                    }
                 }
             }
 
