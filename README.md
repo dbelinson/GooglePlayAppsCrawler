@@ -1,6 +1,10 @@
+
 **Update: Huge Milestone for a home project. The database already have 1.1 Million apps.** 
 
 **Update 2: Amazon AWS Started to Charge me, and the Mongo Database is eating up my whole disk, so please, avoid executing Insertions on this database. Try to use it as read-only for your personal researches. I will pay for the network outbound cost monthly, but if the cost increases too much, i will have to un-host the database. Use it wisely**
+
+**Update 3: As people kept requesting me, i decided to export the database on it's current state.
+Heres the link for download as a .CSV file (with headers): https://s3.amazonaws.com/PlayStoreDatabase/ExportedAppsDatabase.csv **
 
 GooglePlayStoreCrawler
 ======================
