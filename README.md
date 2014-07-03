@@ -3,8 +3,6 @@
 
 **Update 2: Amazon AWS Started to Charge me, and the Mongo Database is eating up my whole disk, so please, avoid executing Insertions on this database. Try to use it as read-only for your personal researches. I will pay for the network outbound cost monthly, but if the cost increases too much, i will have to un-host the database. Use it wisely**
 
-**Update 3: As people kept requesting me, i decided to export the database on it's current state.
-Heres the link for download as a .CSV file (with headers): https://s3.amazonaws.com/PlayStoreDatabase/ExportedAppsDatabase.csv **
 
 GooglePlayStoreCrawler
 ======================
@@ -12,6 +10,13 @@ GooglePlayStoreCrawler
 Simple scalable crawler for Apps data from the Play Store.
 
 You don't have to input any of your Google Account credentials since this Crawler acts like a "Logged Out" user.
+
+# Exporting the Database
+As people kept requesting me, i decided to export the database on it's current state.
+Heres the link for download as a .CSV file (with headers): https://s3.amazonaws.com/PlayStoreDatabase/ExportedAppsDatabase.csv 
+
+Have in mind that downloading the database costs me money, since i pay for the outbound traffic provided by AWS for this download.
+So, consider making a donation (via paypal) to marcello.grechi@gmail.com (the value is up to you)
 
 # About me
 My name is Marcello Lins, i am a 23 y/o developer from Brazil who works with BigData and DataMining techniques at the moment.
