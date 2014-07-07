@@ -20,6 +20,10 @@ So, consider making a donation (via paypal) to marcello.grechi@gmail.com (the va
 
 Alternativelly, you can use the "AppsExporter" project that i included to write your own query logic, exporting only the records / fields you need, which will be cheaper than downloading the whole database.
 
+# Opening the Database
+
+Since the exported database contains more than 1 milion lines, you will have to use one text editor such as "EM Editor" for opening the file. Regular text editor such as Notepad++ and Sublime won't open it and will crash.
+
 # About me
 My name is Marcello Lins, i am a 23 y/o developer from Brazil who works with BigData and DataMining techniques at the moment.
 
