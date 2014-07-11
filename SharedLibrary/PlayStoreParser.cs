@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SharedLibrary
 {
@@ -270,6 +271,27 @@ namespace SharedLibrary
              // Parsing App's OS Version Required
             currentNode                = map.DocumentNode.SelectSingleNode (Consts.APP_OS_REQUIRED);
             parsedApp.MinimumOSVersion = currentNode == null ? String.Empty : currentNode.InnerText.Trim ();
+
+            // Parsing Developer Links (e-mail / website)
+            foreach (var devLink in map.DocumentNode.SelectNodes (Consts.DEVELOPER_URLS))
+            {
+                // Parsing Inner Text
+                string tagText = devLink.InnerText.ToUpper ().Trim ();
+
+                // Checking for Email
+                if (tagText.IndexOf ("EMAIL", StringComparison.InvariantCultureIgnoreCase) >= 0)
+                {
+                    parsedApp.DeveloperEmail   = devLink.Attributes["href"].Value.Replace ("mailto:", String.Empty).Trim();
+                }
+                else if (tagText.IndexOf ("WEBSITE", StringComparison.InvariantCultureIgnoreCase) >= 0) // Developer Website
+                {
+                    parsedApp.DeveloperWebsite = HttpUtility.HtmlDecode (devLink.Attributes["href"].Value.Trim());
+                }
+                else // Privacy Policy
+                {
+                    parsedApp.DeveloperPrivacyPolicy = HttpUtility.HtmlDecode (devLink.Attributes["href"].Value.Trim());
+                }  
+            }
 
             return parsedApp;
         }

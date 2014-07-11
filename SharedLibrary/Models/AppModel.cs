@@ -7,27 +7,30 @@ namespace SharedLibrary.Models
     // Serialization Models for App Data to be stored on MongoDB
     public class AppModel
     {
-        public ObjectId _id                {get;set;}
-        public string   Url                {get;set;}
-        public string   Name               {get;set;}
-        public string   Developer          {get;set;}
-        public bool     IsTopDeveloper     {get;set;}
-        public string   DeveloperURL       {get;set;}
-        public DateTime PublicationDate    {get;set;}
-        public string   Category           {get;set;}
-        public bool     IsFree             {get;set;}
-        public double   Price              {get;set;}
-        public string   Reviewers          {get;set;}
-        public string   CoverImgUrl        {get;set;}
-        public string   Description        {get;set;}
-        public Score    Score              {get;set;}
-        public DateTime LastUpdateDate     {get;set;}
-        public Double   AppSize            {get;set;}
-        public string   Instalations       {get;set;}
-        public string   CurrentVersion     {get;set;}
-        public string   MinimumOSVersion   {get;set;}
-        public string   ContentRating      {get;set;}
-        public bool     HaveInAppPurchases {get;set;}
+        public ObjectId _id                    {get;set;}
+        public string   Url                    {get;set;}
+        public string   Name                   {get;set;}
+        public string   Developer              {get;set;}
+        public bool     IsTopDeveloper         {get;set;}
+        public string   DeveloperURL           {get;set;}
+        public DateTime PublicationDate        {get;set;}
+        public string   Category               {get;set;}
+        public bool     IsFree                 {get;set;}
+        public double   Price                  {get;set;}
+        public string   Reviewers              {get;set;}
+        public string   CoverImgUrl            {get;set;}
+        public string   Description            {get;set;}
+        public Score    Score                  {get;set;}
+        public DateTime LastUpdateDate         {get;set;}
+        public Double   AppSize                {get;set;}
+        public string   Instalations           {get;set;}
+        public string   CurrentVersion         {get;set;}
+        public string   MinimumOSVersion       {get;set;}
+        public string   ContentRating          {get;set;}
+        public bool     HaveInAppPurchases     {get;set;}
+        public string   DeveloperEmail         {get;set;}
+        public string   DeveloperWebsite       {get;set;}
+        public string   DeveloperPrivacyPolicy {get;set;}
 
         // Override of the ToString Method
         public string ToString()
@@ -36,7 +39,7 @@ namespace SharedLibrary.Models
             return String.Join (",", _id, Url, Name, Developer, IsTopDeveloper, DeveloperURL, PublicationDate.ToString ("yyyy-MM-dd"),
                                 Category, IsFree, Price, Reviewers, CoverImgUrl, Description, Score.Total, Score.Count, Score.FiveStars, 
                                 Score.FourStars, Score.ThreeStars, Score.TwoStars, Score.OneStars, LastUpdateDate.ToString ("yyyy-MM-dd"),
-                                AppSize, Instalations, CurrentVersion, MinimumOSVersion, ContentRating, HaveInAppPurchases);
+                                AppSize, Instalations, CurrentVersion, MinimumOSVersion, ContentRating, HaveInAppPurchases,DeveloperEmail,DeveloperWebsite,DeveloperPrivacyPolicy);
         }
     }
 

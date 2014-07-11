@@ -77,9 +77,9 @@ namespace AppsExporter
 
                 // Writing Headers
                 String headersLine = "_id,Url,Name,Developer,IsTopDeveloper,DeveloperURL,PublicationDate,"
-                                    +"Category,IsFree,Price,Reviewers,CoverImgUrl,Description,Score.Total,Score.Count,Score.FiveStars,"
-                                    +"Score.FourStars,Score.ThreeStars,Score.TwoStars,Score.OneStars,LastUpdateDate"
-                                    +"AppSize,Instalations,CurrentVersion,MinimumOSVersion,ContentRating,HaveInAppPurchases";
+                                   + "Category,IsFree,Price,Reviewers,CoverImgUrl,Description,Score.Total,Score.Count,Score.FiveStars,"
+                                   + "Score.FourStars,Score.ThreeStars,Score.TwoStars,Score.OneStars,LastUpdateDate"
+                                   + "AppSize,Instalations,CurrentVersion,MinimumOSVersion,ContentRating,HaveInAppPurchases,DeveloperEmail,DeveloperWebsite,DeveloperPrivacyPolicy";
 
                 sWriter.WriteLine (headersLine);
 

@@ -45,12 +45,13 @@ namespace SharedLibrary
         public static readonly string APP_OS_REQUIRED    = "//div[@class='content' and @itemprop='operatingSystems']";
         public static readonly string EXTRA_APPS         = "//div[@class='card-content id-track-click id-track-impression']/a[@class='card-click-target']";
         public static readonly string IN_APP_PURCHASE    = "//div[@class='info-container']/div[@class='inapp-msg']";
+        public static readonly string DEVELOPER_URLS     = "//div[@class='content contains-text-link']/a[@class='dev-link']";
 
         // HTML Values
         public static readonly string NO_RESULT_MESSAGE = "Nenhum resultado para sua pesquisa"; // TODO: CHANGE THIS TO YOUR OWN LANGUAGE. 
                                                                                                 // THIS CONSTANT IS USED TO CHECK FOR "NO MORE APPS" WHEN YOU PAGINATE/SCROLL THROUGH
                                                                                                 // THE SEARCH RESULTS. THE PHRASE MEANS "NO RESULT FOR YOUR SEARCH"
-
+        
         // Retry Values
         public static readonly int MAX_REQUEST_ERRORS   = 100;
         public static readonly int MAX_QUEUE_TRIES      = 5;
