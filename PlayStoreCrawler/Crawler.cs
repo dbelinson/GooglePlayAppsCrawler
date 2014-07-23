@@ -1,11 +1,8 @@
-﻿using BDC.BDCCommons;
+﻿using System;
+using System.Linq;
+using BDC.BDCCommons;
 using SharedLibrary;
 using SharedLibrary.MongoDB;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebUtilsLib;
 
 namespace PlayStoreCrawler

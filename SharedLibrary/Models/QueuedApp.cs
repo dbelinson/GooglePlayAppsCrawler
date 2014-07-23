@@ -1,9 +1,6 @@
-﻿using MongoDB.Bson;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace SharedLibrary.Models
 {
@@ -11,7 +8,6 @@ namespace SharedLibrary.Models
     {
         public ObjectId _id { get; set; }
         public String Url   { get; set; }
-        public bool IsBusy { get; set; }
-
+        public bool IsBusy  { get; set; }
     }
 }
