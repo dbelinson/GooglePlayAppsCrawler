@@ -13,9 +13,9 @@ You don't have to input any of your Google Account credentials since this Crawle
 
 # Exporting the Database
 As people kept requesting me, i decided to export the database on it's current state.
-Heres the link for download as a .CSV file (with headers): https://s3.amazonaws.com/PlayStoreDatabase/ExportedAppsDatabase.csv 
+Heres the link for download as a .CSV file (with headers): https://www.dropbox.com/s/1j6puywjoroi4hs/GooglePlayStats.zip
 
-Have in mind that downloading the database costs me money, since i pay for the outbound traffic provided by AWS for this download.
+Have in mind that downloading the database costs me money, since i pay for the outbound traffic provided by AWS when you query the database
 So, consider making a donation (via paypal) to marcello.grechi@gmail.com (the value is up to you).
 
 Alternativelly, you can use the "AppsExporter" project that i included to write your own query logic, exporting only the records / fields you need, which will be cheaper than downloading the whole database.
