@@ -36,10 +36,37 @@ namespace SharedLibrary.Models
         public string ToString()
         {
             // Serializing Object as CSV
-            return String.Join ("|", _id, Url, Name, Developer, IsTopDeveloper, DeveloperURL, PublicationDate.ToString ("yyyy-MM-dd"),
-                                Category, IsFree, Price, Reviewers, CoverImgUrl, Description, Score.Total, Score.Count, Score.FiveStars, 
-                                Score.FourStars, Score.ThreeStars, Score.TwoStars, Score.OneStars, LastUpdateDate.ToString ("yyyy-MM-dd"),
-                                AppSize, Instalations, CurrentVersion, MinimumOSVersion, ContentRating, HaveInAppPurchases,DeveloperEmail,DeveloperWebsite,DeveloperPrivacyPolicy);
+            return String.Join (",", 
+                                ("\"" + _id                    + "\""), 
+                                ("\"" + Url                    + "\""), 
+                                ("\"" + Name                   + "\""),
+                                ("\"" + Developer              + "\""),
+                                ("\"" + IsTopDeveloper         + "\""),
+                                ("\"" + DeveloperURL           + "\""),
+                                ("\"" + PublicationDate.ToString ("yyyy-MM-dd") + "\""),
+                                ("\"" + Category               + "\""),
+                                ("\"" + IsFree                 + "\""),
+                                ("\"" + Price                  + "\""), 
+                                ("\"" + Reviewers              + "\""),
+                                ("\"" + CoverImgUrl            + "\""),
+                                ("\"" + Description            + "\""),
+                                ("\"" + Score.Total            + "\""), 
+                                ("\"" + Score.Count            + "\""), 
+                                ("\"" + Score.FiveStars        + "\""),
+                                ("\"" + Score.FourStars        + "\""),
+                                ("\"" + Score.ThreeStars       + "\""),
+                                ("\"" + Score.TwoStars         + "\""),
+                                ("\"" + Score.OneStars         + "\""),
+                                ("\"" + LastUpdateDate.ToString ("yyyy-MM-dd") + "\""),
+                                ("\"" + AppSize                + "\""),
+                                ("\"" + Instalations           + "\""),
+                                ("\"" + CurrentVersion         + "\""),
+                                ("\"" + MinimumOSVersion       + "\""),
+                                ("\"" + ContentRating          + "\""),
+                                ("\"" + HaveInAppPurchases     +"\""),
+                                ("\"" + DeveloperEmail         + "\""),
+                                ("\"" + DeveloperWebsite       +"\""),
+                                ("\"" + DeveloperPrivacyPolicy + "\""));
         }
     }
 

@@ -65,6 +65,11 @@ namespace SharedLibrary.MongoDB
             return _database.GetCollection<T> (_collectionName).FindAll ();
         }
 
+        public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit)
+        {
+            return _database.GetCollection<T>(_collectionName).Find(mongoQuery).SetLimit (limit);
+        }
+
         /// <summary>
         /// Checks whether an app with the same URL
         /// already exists into the database

@@ -9,6 +9,7 @@ using System.Security.Permissions;
 using System.Text;
 using System.Threading;
 using SharedLibrary.Models;
+using MongoDB.Driver.Builders;
 
 namespace AppsExporter
 {
@@ -83,8 +84,13 @@ namespace AppsExporter
 
                 sWriter.WriteLine (headersLine);
 
+                // Example of MongoDB Query Construction
+                // Queries for records which have the attribute "IsTopDeveloper" equal to "false"
+                var mongoQuery = Query.EQ ("IsTopDeveloper", false);
+
                 // Reading all apps from the database
-                foreach (AppModel app in mongoDB.FindAll<AppModel>())
+                // USAGE: CHANGE FindMatches to FindAll if you want to export all the records from the database
+                foreach (AppModel app in mongoDB.FindMatch<AppModel>(mongoQuery, 10))
                 {
                     try
                     {
