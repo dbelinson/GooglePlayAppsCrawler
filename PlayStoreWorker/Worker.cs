@@ -105,7 +105,7 @@ namespace PlayStoreWorker
                         retryCounter = 0;
 
                         // Parsing Useful App Data
-                        AppModel parsedApp = parser.ParseAppPage(response, appUrl);
+                        AppModel parsedApp = parser.ParseAppPage (response, appUrl);
 
                         // Inserting App into Mongo DB Database
                         if (!mongoDB.Insert<AppModel>(parsedApp))

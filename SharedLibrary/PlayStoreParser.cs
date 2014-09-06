@@ -62,6 +62,9 @@ namespace SharedLibrary
             // Updating App Url
             parsedApp.Url = pageUrl;
 
+            // Updating Reference Date
+            parsedApp.ReferenceDate = DateTime.Now;
+
             // Loading HTML Document
             HtmlDocument map = new HtmlDocument ();
             map.LoadHtml (response);

@@ -8,6 +8,7 @@ namespace SharedLibrary.Models
     public class AppModel
     {
         public ObjectId _id                    {get;set;}
+        public DateTime ReferenceDate          {get;set;}
         public string   Url                    {get;set;}
         public string   Name                   {get;set;}
         public string   Developer              {get;set;}
@@ -37,8 +38,9 @@ namespace SharedLibrary.Models
         {
             // Serializing Object as CSV
             return String.Join (",", 
-                                ("\"" + _id                    + "\""), 
-                                ("\"" + Url                    + "\""), 
+                                ("\"" + _id                    + "\""),
+                                ("\"" + Url                    + "\""),
+                                ("\"" + ReferenceDate.ToString ("yyyy-MM-dd") + "\""), 
                                 ("\"" + Name                   + "\""),
                                 ("\"" + Developer              + "\""),
                                 ("\"" + IsTopDeveloper         + "\""),
