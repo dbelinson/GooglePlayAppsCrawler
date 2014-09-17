@@ -162,7 +162,17 @@ namespace SharedLibrary
 
             // Parsing number of app reviewers
             currentNode         = map.DocumentNode.SelectSingleNode (Consts.APP_REVIEWERS);
-            parsedApp.Reviewers = currentNode == null ? String.Empty : currentNode.InnerText.Trim().Trim ('(').Trim(')');
+            string reviewers    = currentNode == null ? String.Empty : currentNode.InnerText.Trim().Trim ('(').Trim(')');
+            double parsedReviewers = 0;
+            
+            if (Double.TryParse (reviewers, out parsedReviewers))
+            {
+                parsedApp.Reviewers = parsedReviewers;
+            }
+            else
+            {
+                parsedApp.Reviewers = -1;
+            }
 
             // Parsing App Description
             currentNode           = map.DocumentNode.SelectSingleNode (Consts.APP_DESCRIPTION);

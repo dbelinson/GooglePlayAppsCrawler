@@ -18,7 +18,7 @@ namespace SharedLibrary.Models
         public string   Category               {get;set;}
         public bool     IsFree                 {get;set;}
         public double   Price                  {get;set;}
-        public string   Reviewers              {get;set;}
+        public double   Reviewers              {get;set;}
         public string   CoverImgUrl            {get;set;}
         public string   Description            {get;set;}
         public Score    Score                  {get;set;}

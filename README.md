@@ -3,6 +3,7 @@
 
 **Update 2: Amazon AWS Started to Charge me, and the Mongo Database is eating up my whole disk, so please, avoid executing Insertions on this database. Try to use it as read-only for your personal researches. I will pay for the network outbound cost monthly, but if the cost increases too much, i will have to un-host the database. Use it wisely**
 
+**Update 3: Dropbox blocked out my public link with the exported database because of the traffic it generated. I just hosted it on my own Amazon S3 bucket **
 
 GooglePlayStoreCrawler
 ======================
@@ -13,7 +14,7 @@ You don't have to input any of your Google Account credentials since this Crawle
 
 # Exporting the Database
 As people kept requesting me, i decided to export the database on it's current state.
-Heres the link for download as a comma delimited file ( csv with headers): https://www.dropbox.com/s/1j6puywjoroi4hs/GooglePlayStats.zip
+Heres the link for download as a comma delimited file ( csv with headers): https://s3.amazonaws.com/GooglePlayStore/Google%20Play%20Stats.7z
 
 Have in mind that downloading the database costs me money, since i pay for the outbound traffic provided by AWS when you query the database
 So, consider making a donation (via paypal) to marcello.grechi@gmail.com (the value is up to you).
