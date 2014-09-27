@@ -50,9 +50,11 @@ namespace SharedLibrary.MongoDB
         /// </summary>
         /// <typeparam name="T">Type of the object to be inserted</typeparam>
         /// <param name="record">Record that will be inserted in the database</param>
-        public bool Insert<T> (T record)
+        public bool Insert<T> (T record, string collection = "")
         {
-            return _database.GetCollection<T> (_collectionName).SafeInsert (record);
+            collection = String.IsNullOrEmpty (collection) ? _collectionName : collection;
+
+            return _database.GetCollection<T> (collection).SafeInsert (record);
         }
 
         /// <summary>
@@ -65,9 +67,11 @@ namespace SharedLibrary.MongoDB
             return _database.GetCollection<T> (_collectionName).FindAll ();
         }
 
-        public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit)
+        public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit, string collectionName = "")
         {
-            return _database.GetCollection<T>(_collectionName).Find(mongoQuery).SetLimit (limit);
+            collectionName = String.IsNullOrEmpty (collectionName) ? _collectionName : collectionName;
+
+            return _database.GetCollection<T>(collectionName).Find(mongoQuery).SetLimit (limit);
         }
 
         /// <summary>

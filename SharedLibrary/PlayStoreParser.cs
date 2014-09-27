@@ -393,5 +393,61 @@ namespace SharedLibrary
 
             return DateTime.ParseExact (dateString, Consts.DATE_FORMAT, System.Globalization.CultureInfo.InvariantCulture);
         }
+
+        public IEnumerable<AppReview> ParseReviews (string response)
+        {
+            // Building HTML Map
+            HtmlDocument map = new HtmlDocument ();
+            map.LoadHtml (response);
+
+            // Iterating over Review Nodes
+            foreach (HtmlNode reviewNode in map.DocumentNode.SelectNodes ("//div[contains(@class,'single-review')]"))
+            {
+                AppReview reviewInstance = new AppReview ();
+
+                try
+                {
+                    
+
+                    // Parsing data out of each review node
+                    reviewInstance.authorName = reviewNode.SelectSingleNode (".//span[contains(@class,'author-name')]/a").InnerText;
+                    
+                    // Assembling Full Permalink for review
+                    reviewInstance.permalink = String.Concat
+                        (
+                            "https://play.google.com",
+                            reviewNode.SelectSingleNode (".//a[contains(@class,'permalink')]").Attributes["href"].Value
+                                                                                              .Replace ("\\", String.Empty)
+                                                                                              .Replace ("\"", String.Empty)
+                        );
+
+                    // Normalizing Review Date
+                    reviewInstance.reviewDate = DateTime.Parse (reviewNode.SelectSingleNode (".//span[contains(@class,'review-date')]").InnerText);
+
+                    // Applying Star Ratings Logic (based on Width value)
+                    string ratingWidth = reviewNode.SelectSingleNode (".//div[contains(@class,'current-rating')]").Attributes["style"].Value;
+
+                    int ratingWidthInt = Int32.Parse (ratingWidth.Replace ("%", String.Empty).Replace ("width:", String.Empty));
+
+                    // 20% Width = 1, 40% Width = 2 ... 100% Width = 5 stars
+                    reviewInstance.starRatings = ratingWidthInt / 20;
+
+                    // Parsing Review Title
+                    HtmlNode reviewParentNode   = reviewNode.SelectSingleNode (".//div[contains(@class,'review-body')]");
+                    reviewInstance.reviewTitle  = reviewParentNode.FirstChild.NextSibling.InnerText.Trim ();
+
+                    // Removing Review Title Node out of parent node to be able to fetch the review body correctly
+                    reviewParentNode.RemoveChild (reviewParentNode.FirstChild);
+
+                    reviewInstance.reviewBody = reviewParentNode.InnerText.Replace ("Full Review", String.Empty).Trim ();
+                }
+                catch // Do not return app review if some exception was thrown
+                {
+                    continue;
+                }
+
+                yield return reviewInstance;
+            }
+        }
     }
 }

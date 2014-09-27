@@ -10,6 +10,7 @@ namespace SharedLibrary
     {
         // Web Request Parameters and URLs
         public static readonly string CRAWL_URL          = "https://play.google.com/store/search?q={0}&c=apps";
+        public static readonly string REVIEWS_URL        = "https://play.google.com/store/getreviews";
         public static readonly string HOST               = "play.google.com";
         public static readonly string ORIGIN             = "https://play.google.com";
         public static readonly string REFERER            = "https://play.google.com/store/apps";
@@ -17,6 +18,8 @@ namespace SharedLibrary
         public static readonly string POST_DATA          = "start={0}&num=48&numChildren=0&ipf=1&xhr=1";
         public static readonly string APP_URL_PREFIX     = "https://play.google.com";
         public static readonly string ACCEPT_LANGUAGE    = "Accept-Language: en-US;q=0.6,en;q=0.4,es;q=0.2";
+        public static readonly string REVIEWS_POST_DATA  = "reviewType=0&pageNum={0}&id={1}&reviewSortOrder=2&xhr=1";
+        public static readonly string USER_AGENT         = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36";
 
         // XPaths
         public static readonly string APP_LINKS          = "//div[@class='cover']/a[@class='card-content-link' and @tabindex='-1' and @aria-hidden='true']";
@@ -66,6 +69,7 @@ namespace SharedLibrary
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
         public static readonly string MONGO_DATABASE         = "PlayStore";
         public static readonly string MONGO_COLLECTION       = "ProcessedApps";
+        public static readonly string REVIEWS_COLLECTION     = "ProcessedReviews";
         public static readonly string QUEUED_APPS_COLLECTION = "QueuedApps";
         public static readonly string MONGO_AUTH_DB          = "PlayStore";
         public static readonly int    MONGO_TIMEOUT          = 10000;
