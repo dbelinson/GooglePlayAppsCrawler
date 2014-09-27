@@ -69,9 +69,10 @@ namespace SharedLibrary.MongoDB
 
         public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit, string collectionName = "")
         {
-            collectionName = String.IsNullOrEmpty (collectionName) ? _collectionName : collectionName;
+           collectionName = String.IsNullOrEmpty (collectionName) ? _collectionName : collectionName;
 
-            return _database.GetCollection<T>(collectionName).Find(mongoQuery).SetLimit (limit);
+           return _database.GetCollection<T>(collectionName).Find(mongoQuery).SetLimit(limit).SetSkip (new Random().Next (10000));
+            
         }
 
         /// <summary>

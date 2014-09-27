@@ -71,13 +71,13 @@ namespace ReviewsParser
             PlayStoreParser parser = new PlayStoreParser ();
 
             // Iterating over Query Results for the App Ids
-            foreach (var appRecord in mongoClient.FindMatch<AppModel> (mongoQuery, _arguments["AppsToProcess"]))
+            foreach (var appRecord in mongoClient.FindMatch<AppModel>(mongoQuery, _arguments["AppsToProcess"]))
             {
                 // Extracting app ID from URL
-                string appId = appRecord.Url.Replace (playStorePrefix, String.Empty);
+                string appId = appRecord.Url.Replace(playStorePrefix, String.Empty);
 
                 // Console Feedback
-                LogWriter.Info ("Processing App [ " + appRecord.Name + " ] ");
+                LogWriter.Info("Processing App [ " + appRecord.Name + " ] ");
 
                 bool shouldSkipApp = false;
 
@@ -91,53 +91,53 @@ namespace ReviewsParser
                     try
                     {
                         // Page Feedback
-                        LogWriter.Info ("\tCurrent Page: " + currentPage);
+                        LogWriter.Info("\tCurrent Page: " + currentPage);
 
                         // Issuing Request for Reviews
-                        string response = GetAppReviews (appId, currentPage);
+                        string response = GetAppReviews(appId, currentPage);
 
                         // Checking for Blocking Situation
-                        if (String.IsNullOrEmpty (response))
+                        if (String.IsNullOrEmpty(response))
                         {
-                            LogWriter.Info ("Blocked by Play Store. Sleeping process for 10 minutes before retrying.");
+                            LogWriter.Info("Blocked by Play Store. Sleeping process for 10 minutes before retrying.");
 
                             // Thread Wait for 10 Minutes
-                            Thread.Sleep (10 * 60 * 1000);
+                            Thread.Sleep(10 * 60 * 1000);
                         }
 
                         // Checking for "No Reviews" app
                         if (response.Length < 50)
                         {
-                            LogWriter.Info ("No Reviews for this app. Skipping");
+                            LogWriter.Info("No Reviews for this app. Skipping");
                             break;
                         }
 
                         // Normalizing Response to Proper HTML
-                        response = NormalizeResponse (response);
+                        response = NormalizeResponse(response);
 
                         // Iterating over Parsed Reviews
-                        foreach (var review in parser.ParseReviews (response))
+                        foreach (var review in parser.ParseReviews(response))
                         {
                             // Adding App Data to the review
-                            review.appID   = appId;
+                            review.appID = appId;
                             review.appName = appRecord.Name;
-                            review.appURL  = appRecord.Url;
+                            review.appURL = appRecord.Url;
 
                             // Adding processing timestamp to the model
                             review.timestamp = DateTime.Now;
 
                             // Building Query to check for duplicated review
-                            var duplicatedReviewQuery = Query.EQ ("permalink", review.permalink);
+                            var duplicatedReviewQuery = Query.EQ("permalink", review.permalink);
 
                             // Checking for duplicated review before inserting it
-                            if (mongoClient.FindMatch<AppReview> (duplicatedReviewQuery, 1,  Consts.REVIEWS_COLLECTION).Count () == 0)
+                            if (mongoClient.FindMatch<AppReview>(duplicatedReviewQuery, 1, Consts.REVIEWS_COLLECTION).Count() == 0)
                             {
                                 // Inserting Review into MongoDB
-                                mongoClient.Insert<AppReview> (review, Consts.REVIEWS_COLLECTION);
+                                mongoClient.Insert<AppReview>(review, Consts.REVIEWS_COLLECTION);
                             }
                             else
                             {
-                                LogWriter.Info ("Duplicated Review", "Review already parsed. Skipping App");
+                                LogWriter.Info("Duplicated Review", "Review already parsed. Skipping App");
                                 shouldSkipApp = true;
                                 break;
                             }
@@ -145,7 +145,7 @@ namespace ReviewsParser
                     }
                     catch (Exception ex)
                     {
-                        LogWriter.Error (ex);
+                        LogWriter.Error(ex);
                     }
                 }
             }
