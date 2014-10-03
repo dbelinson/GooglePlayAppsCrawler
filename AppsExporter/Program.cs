@@ -90,7 +90,7 @@ namespace AppsExporter
 
                 // Reading all apps from the database
                 // USAGE: CHANGE FindMatches to FindAll if you want to export all the records from the database
-                foreach (AppModel app in mongoDB.FindMatch<AppModel>(mongoQuery, 10))
+                foreach (AppModel app in mongoDB.FindMatch<AppModel>(mongoQuery, 10, 0))
                 {
                     try
                     {

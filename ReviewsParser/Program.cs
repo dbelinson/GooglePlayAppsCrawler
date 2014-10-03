@@ -38,7 +38,7 @@ namespace ReviewsParser
             // Parsing Arguments
             LogWriter.Info ("Checking for Arguments");
 
-            if (args == null || args.Length != 2)
+            if (args == null || args.Length != 3)
             {
                 LogWriter.Fatal ("Arguments Fatal", "Incorrect number of arguments received. Try passing two.");
                 return; // Halts.
@@ -49,6 +49,7 @@ namespace ReviewsParser
             // Reading actual arguments received
             _arguments.Add ("AppsToProcess", Int32.Parse (args[0]));
             _arguments.Add ("ReviewsPagePerApp", Int32.Parse (args[1]));
+            _arguments.Add ("AppsToSkip", Int32.Parse (args[2]));
 
             // Building MongoDB Query - This query specifies which applications you want to parse out the reviews
             // For more regarding MongoDB Queries, check the documentation on the project wiki page
@@ -71,7 +72,7 @@ namespace ReviewsParser
             PlayStoreParser parser = new PlayStoreParser ();
 
             // Iterating over Query Results for the App Ids
-            foreach (var appRecord in mongoClient.FindMatch<AppModel>(mongoQuery, _arguments["AppsToProcess"]))
+            foreach (var appRecord in mongoClient.FindMatch<AppModel>(mongoQuery, _arguments["AppsToProcess"], _arguments["AppsToSkip"]))
             {
                 // Extracting app ID from URL
                 string appId = appRecord.Url.Replace(playStorePrefix, String.Empty);
@@ -130,7 +131,7 @@ namespace ReviewsParser
                             var duplicatedReviewQuery = Query.EQ("permalink", review.permalink);
 
                             // Checking for duplicated review before inserting it
-                            if (mongoClient.FindMatch<AppReview>(duplicatedReviewQuery, 1, Consts.REVIEWS_COLLECTION).Count() == 0)
+                            if (mongoClient.FindMatch<AppReview>(duplicatedReviewQuery, 1, 0, Consts.REVIEWS_COLLECTION).Count() == 0)
                             {
                                 // Inserting Review into MongoDB
                                 mongoClient.Insert<AppReview>(review, Consts.REVIEWS_COLLECTION);
@@ -138,8 +139,8 @@ namespace ReviewsParser
                             else
                             {
                                 LogWriter.Info("Duplicated Review", "Review already parsed. Skipping App");
-                                shouldSkipApp = true;
-                                break;
+                                //shouldSkipApp = true;
+                                //break;
                             }
                         }
                     }

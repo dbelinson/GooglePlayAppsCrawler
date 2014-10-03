@@ -67,12 +67,11 @@ namespace SharedLibrary.MongoDB
             return _database.GetCollection<T> (_collectionName).FindAll ();
         }
 
-        public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit, string collectionName = "")
+        public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit, int skip, string collectionName = "")
         {
            collectionName = String.IsNullOrEmpty (collectionName) ? _collectionName : collectionName;
 
-           return _database.GetCollection<T>(collectionName).Find(mongoQuery).SetLimit(limit).SetSkip (new Random().Next (10000));
-            
+           return _database.GetCollection<T>(collectionName).Find(mongoQuery).SetLimit(limit).SetSkip (skip);            
         }
 
         /// <summary>
