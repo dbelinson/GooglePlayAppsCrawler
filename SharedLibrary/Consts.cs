@@ -22,7 +22,7 @@ namespace SharedLibrary
         public static readonly string USER_AGENT         = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36";
 
         // XPaths
-        public static readonly string APP_LINKS          = "//div[@class='cover']/a[@class='card-content-link' and @tabindex='-1' and @aria-hidden='true']";
+        public static readonly string APP_LINKS          = "//div[@class='details']/a[@class='card-click-target' and @tabindex='-1' and @aria-hidden='true']";
         public static readonly string APP_NAME           = "//div[@class='info-container']/div[@class='document-title' and @itemprop='name']/div";
         public static readonly string APP_CATEGORY       = "//div/a[@class='document-subtitle category']";
         public static readonly string APP_DEV            = "//div[@class='info-container']/div[@itemprop='author']/a/span[@itemprop='name']";
