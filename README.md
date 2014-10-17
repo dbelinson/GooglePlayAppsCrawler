@@ -15,7 +15,7 @@ You don't have to input any of your Google Account credentials since this Crawle
 
 # Exporting the Database
 As people kept requesting me, i decided to export the database on it's current state.
-Heres the link for download as a comma delimited file ( csv with headers): https://s3.amazonaws.com/GooglePlayStore/Google%20Play%20Stats.7z
+Heres the link for download as a comma delimited file ( csv with headers): https://s3.amazonaws.com/GooglePlayStore/GooglePlayStats.zip
 
 Have in mind that downloading the database costs me money, since i pay for the outbound traffic provided by AWS when you query the database
 So, consider making a donation (via paypal) to marcello.grechi@gmail.com (the value is up to you).
