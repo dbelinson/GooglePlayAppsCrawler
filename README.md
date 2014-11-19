@@ -5,7 +5,7 @@
 ---------------------------------------------------------------------------
 **Update 3: Dropbox blocked out my public link with the exported database because of the traffic it generated. I just hosted it on my own Amazon S3 bucket**
 ---------------------------------------------------------------------------
-**Update 4: By popular demand i have just released an Apple Store Crawler aswell. I hope you like it ! **
+**Update 4: By popular demand i have just released an Apple Store Crawler aswell. I hope you like it !**
 
 GooglePlayStoreCrawler
 ======================
