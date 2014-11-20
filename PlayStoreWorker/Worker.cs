@@ -88,7 +88,7 @@ namespace PlayStoreWorker
                             waitTime = TimeSpan.FromMinutes (35).TotalMilliseconds;
 
                             // Removing App from the database (this the app page may have expired)
-                            mongoDB.RemoveFromQueue (appUrl);
+                            mongoDB.RemoveFromQueue (app.Url);
                         }
                         else
                         {
