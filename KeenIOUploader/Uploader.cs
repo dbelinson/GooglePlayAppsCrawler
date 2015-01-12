@@ -22,7 +22,7 @@ namespace KeenIOUploader
      * project, but you will have to provide your own set of keys. 
      * 
      * For more information about Keen.IO and their participation on this project,
-     * please refer to : http://www.bleh.com
+     * please refer to : https://github.com/MarcelloLins/GooglePlayAppsCrawler/wiki/Analytics-Playground
      * 
      */
     class Uploader
