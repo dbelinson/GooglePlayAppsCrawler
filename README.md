@@ -9,6 +9,8 @@ Important Updates:
 
 **Update 4: By popular demand i have just released an Apple Store Crawler aswell. I hope you like it !**
 
+**Update 5: Added Analytics Features - Powered by Keen.IO**
+
 GooglePlayStoreCrawler
 ======================
 
