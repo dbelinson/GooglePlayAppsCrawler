@@ -4,6 +4,8 @@ using BDC.BDCCommons;
 using SharedLibrary;
 using SharedLibrary.MongoDB;
 using WebUtilsLib;
+using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace PlayStoreCrawler
 {
@@ -87,6 +89,9 @@ namespace PlayStoreCrawler
             // Console Feedback
             Console.WriteLine ("Crawling Search Term : [ " + searchField + " ]");
 
+            // Compiling Regular Expression used to parse the "pagToken" out of the Play Store
+            Regex pagTokenRegex = new Regex (@"GAEi+.+\:S\:.{11}\\42", RegexOptions.Compiled);
+
             // HTML Response
             string response;
 
@@ -95,6 +100,9 @@ namespace PlayStoreCrawler
             MongoDBWrapper mongoDB   = new MongoDBWrapper ();
             string fullServerAddress = String.Join (":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
             mongoDB.ConfigureDatabase (Consts.MONGO_USER, Consts.MONGO_PASS, Consts.MONGO_AUTH_DB, fullServerAddress, Consts.MONGO_TIMEOUT, Consts.MONGO_DATABASE, Consts.MONGO_COLLECTION);
+
+            // Ensuring the database has the proper indexe
+            mongoDB.EnsureIndex ("Url");
 
             // Response Parser
             PlayStoreParser parser = new PlayStoreParser (); 
@@ -106,7 +114,7 @@ namespace PlayStoreCrawler
                 server.Host = Consts.HOST;
 
                 // Executing Initial Request
-                response    = server.Post (Consts.CRAWL_URL, Consts.INITIAL_POST_DATA);
+                response    = server.Post (String.Format (Consts.CRAWL_URL, searchField), Consts.INITIAL_POST_DATA);
 
                 // Parsing Links out of Html Page (Initial Request)                
                 foreach (string url in parser.ParseAppUrls (response))
@@ -120,6 +128,7 @@ namespace PlayStoreCrawler
 
                         // Than, queue it :)
                         mongoDB.AddToQueue (url);
+                        Thread.Sleep (250); // Hiccup
                     }
                     else
                     {
@@ -134,11 +143,23 @@ namespace PlayStoreCrawler
                 int errorsCount       = 0;
                 do
                 {
+                    // Finding pagToken from HTML
+                    var rgxMatch = pagTokenRegex.Match (response);
+
+                    // If there's no match, skips it
+                    if (!rgxMatch.Success)
+                    {
+                        break;
+                    }
+
+                    // Reading Match from Regex, and applying needed replacements
+                    string pagToken = rgxMatch.Value.Replace (":S:", "%3AS%3A").Replace("\\42", String.Empty).Replace(@"\\u003d", String.Empty);
+
                     // Assembling new PostData with paging values
-                    string postData = String.Format (Consts.POST_DATA, (initialSkip * currentMultiplier));
+                    string postData = String.Format (Consts.POST_DATA, pagToken);
 
                     // Executing request for values
-                    response = server.Post (Consts.CRAWL_URL, postData);
+                    response = server.Post (String.Format (Consts.CRAWL_URL, searchField), postData);
 
                     // Checking Server Status
                     if (server.StatusCode != System.Net.HttpStatusCode.OK)
@@ -160,6 +181,7 @@ namespace PlayStoreCrawler
 
                             // Than, queue it :)
                             mongoDB.AddToQueue (url);
+                            Thread.Sleep (250); // Hiccup
                         }
                         else
                         {

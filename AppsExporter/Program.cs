@@ -45,7 +45,6 @@ namespace AppsExporter
             // Periodic Log Timer
             Timer loggingThread = new Timer((TimerCallback) =>
             {
-                
                 LogWriter.Info ("Processed Apps: " + processedApps);
 
             }, null, 10000, 10000);

@@ -32,6 +32,7 @@ namespace SharedLibrary.Models
         public string   DeveloperEmail         {get;set;}
         public string   DeveloperWebsite       {get;set;}
         public string   DeveloperPrivacyPolicy {get;set;}
+        public string   PhysicalAddress        {get;set;} 
 
         // Override of the ToString Method
         public string ToString()

@@ -1,0 +1,1052 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Keen</name>
+    </assembly>
+    <members>
+        <member name="T:Keen.Core.Query.FunnelStep">
+            <summary>
+            Represents one step in a funnel query. See the Keen.IO API for details on how to perform a funnel query.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.FunnelStep.EventCollection">
+            <summary>
+             The name of the event that defines the step.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.FunnelStep.ActorProperty">
+            <summary>
+            The name of the property that can be used as a unique identifier for a user (or any type of actor).
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.FunnelStep.Filters">
+            <summary>
+            Filters are used to narrow the scope of events used in this step of the funnel.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.FunnelStep.Timeframe">
+            <summary>
+            Window of time to use for the analysis. If not set, the timeframe from the funnel will be inherited, if available.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.FunnelStep.TimeZone">
+            <summary>
+            Offset from UTC in seconds. If not set, the timezone from the funnel will be inherited, if available.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.MultiAnalysisParam.#ctor(System.String,Keen.Core.Query.MultiAnalysisParam.Metric)">
+            <summary>
+            MultiAnalysisParam defines one kind of analysis to run in a MultiAnalysis request.
+            </summary>
+            <param name="label">A user defined string that acts as a name for the analysis. 
+            This will be returned in the results so the various analyses are easily identifiable.</param>
+            <param name="analysis">The metric type.</param>
+        </member>
+        <member name="T:Keen.Core.Query.Queries">
+            <summary>
+            Queries implements the IQueries interface which represents the Keen.IO Query API methods.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.IQueries.AvailableQueries">
+            <summary>
+            Returns a list of available queries and links to them.
+            </summary>
+        </member>
+        <member name="T:Keen.Core.Query.QueryFilter">
+            <summary>
+            Represents a filter that can be applied to a query.
+            Because not all filter operators make sense for the different property data types, only certain operators are valid for each data type.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.QueryFilter.PropertyName">
+            <summary>
+            The name of the property on which to filter
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.QueryFilter.Operator">
+            <summary>
+            The filter operator to use
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.QueryFilter.Value">
+            <summary>
+            The value to compare to the property specified in PropertyName
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.Equals">
+            <summary>
+            Equal to.
+            <para>Use with string, number, boolean</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.NotEqual">
+            <summary>
+            Not equal to.
+            <para>Use with string, number</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.LessThan">
+            <summary>
+            Less than.
+            <para>Use with string, number</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.LessThanOrEqual">
+            <summary>
+            Less than or equal to.
+            <para>Use with number</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.GreaterThan">
+            <summary>
+            Greater than.
+            <para>Use with string, number</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.GreaterThanOrEqual">
+            <summary>
+            Greater than or equal to.
+            <para>Use with number</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.Exists">
+            <summary>
+            Whether a specific property exists on an event record.
+            The Value property must be set to "true" or "false"
+            <para>Use with string, number, boolean</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.In">
+            <summary>
+            Whether the property value is in a give set of values.
+            The Value property must be a JSON array of values, e.g.: "[1,2,4,5]"
+            <para>Use with string, number, boolean</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.Contains">
+            <summary>
+            Whether the property value contains the give set of characters.
+            <para>Use with strings</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryFilter.FilterOperator.Within">
+            <summary>
+            Used to select events within a certain radius of the provided geo coordinate.
+            <para>Use with geo analysis</para>
+            </summary>
+        </member>
+        <member name="T:Keen.Core.Query.QueryGroupValue`1">
+            <summary>
+            Represents the values from a query performed with a groupby. 
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Keen.Core.Query.QueryGroupValue`1.Value">
+            <summary>
+            The value for the group. Varies with the type of query performed.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.QueryGroupValue`1.Group">
+            <summary>
+            The value of the groupby field for this value.
+            </summary>
+        </member>
+        <member name="T:Keen.Core.Query.QueryInterval">
+            <summary>
+            Provides values for interval query parameter
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.Minutely">
+            <summary>
+            breaks your timeframe into minute long chunks.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.Hourly">
+            <summary>
+            breaks your timeframe into hour long chunks.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.Daily">
+            <summary>
+            breaks your timeframe into day long chunks.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.Weekly">
+            <summary>
+            breaks your timeframe into week long chunks.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.Monthly">
+            <summary>
+            breaks your timeframe into month long chunks.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.Yearly">
+            <summary>
+            breaks your timeframe into year long chunks.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.EveryNMinutes(System.Int32)">
+            <summary>
+            breaks your timeframe into chunks of the specified length
+            </summary>
+            <param name="n">chunk length</param>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.EveryNHours(System.Int32)">
+            <summary>
+            breaks your timeframe into chunks of the specified length
+            </summary>
+            <param name="n">chunk length</param>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.EveryNDays(System.Int32)">
+            <summary>
+            breaks your timeframe into chunks of the specified length
+            </summary>
+            <param name="n">chunk length</param>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.EveryNWeeks(System.Int32)">
+            <summary>
+            breaks your timeframe into chunks of the specified length
+            </summary>
+            <param name="n">chunk length</param>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.EveryNMonths(System.Int32)">
+            <summary>
+            breaks your timeframe into chunks of the specified length
+            </summary>
+            <param name="n">chunk length</param>
+        </member>
+        <member name="M:Keen.Core.Query.QueryInterval.EveryNYears(System.Int32)">
+            <summary>
+            breaks your timeframe into chunks of the specified length
+            </summary>
+            <param name="n">chunk length</param>
+        </member>
+        <member name="T:Keen.Core.Query.QueryIntervalValue`1">
+            <summary>
+            Represents a set of values from a query performed with an interval parameter.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Keen.Core.Query.QueryIntervalValue`1.Value">
+            <summary>
+            The value for this interval. Varies with the type of query performed.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.QueryIntervalValue`1.Start">
+            <summary>
+            Start time for this interval.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.Query.QueryIntervalValue`1.End">
+            <summary>
+            End time for this interval.
+            </summary>
+        </member>
+        <member name="T:Keen.Core.Query.QueryRelativeTimeframe">
+            <summary>
+            Provides values for relative timeframe query parameter.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisMinute">
+            <summary>
+            Creates a timeframe starting from the beginning of the current minute until now.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisHour">
+            <summary>
+            Creates a timeframe starting from the beginning of the current hour until now.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisDay">
+            <summary>
+            Creates a timeframe starting from the beginning of the current day until now.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisWeek">
+            <summary>
+            Creates a timeframe starting from the beginning of the current week until now.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisMonth">
+            <summary>
+            Creates a timeframe starting from the beginning of the current month until now.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisYear">
+            <summary>
+            Creates a timeframe starting from the beginning of the current year until now.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisNMinutes(System.Int32)">
+            <summary>
+            All of the current minute and the previous completed n-1 minutes.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisNHours(System.Int32)">
+            <summary>
+            All of the current hour and the previous completed n-1 hours.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisNDays(System.Int32)">
+            <summary>
+            All of the current day and the previous completed n-1 days.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisNWeeks(System.Int32)">
+            <summary>
+            All of the current week and the previous completed n-1 weeks.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisNMonths(System.Int32)">
+            <summary>
+            All the current month and previous completed n-1 months.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.ThisNYears(System.Int32)">
+            <summary>
+            All the current year and previous completed n-1 years.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousNMinutes(System.Int32)">
+            <summary>
+            Gives a start of n-minutes before the most recent complete minute and an end at the most recent complete minute. 
+            <para>Example: If right now it is 7:15:30pm and I specify “previous_3_minutes”, the timeframe would stretch from 7:12pm until 7:15pm.</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousNHours(System.Int32)">
+            <summary>
+            Gives a start of n-hours before the most recent complete hour and an end at the most recent complete hour. 
+            <para>Example: If right now it is 7:15pm and I specify “previous_7_hours”, the timeframe would stretch from noon until 7:00pm.</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousNDays(System.Int32)">
+            <summary>
+            Gives a starting point of n-days before the most recent complete day and an end at the most recent complete day. 
+            <para>Example: If right now is Friday at 9:00am and I specify a timeframe of “previous_3_days”, the timeframe would stretch from Tuesday morning at 12:00am until Thursday night at midnight.</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousNWeeks(System.Int32)">
+            <summary>
+            Gives a start of n-weeks before the most recent complete week and an end at the most recent complete week. 
+            <para>Example: If right now is Monday and I specify a timeframe of “previous_2_weeks”, the timeframe would stretch from three Sunday mornings ago at 12:00am until the most recent Sunday at 12:00am. (yesterday morning)</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousNMonths(System.Int32)">
+            <summary>
+            Gives a start of n-months before the most recent completed month and an end at the most recent completed month. 
+            <para>Example: If right now is the 5th of the month and I specify a timeframe of “previous_2_months”, the timeframe would stretch from the start of two months ago until the end of last month.</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousNYears(System.Int32)">
+            <summary>
+            Gives a start of n-years before the most recent completed year and an end at the most recent completed year. 
+            <para>Example: If right now is the June 5th and I specify a timeframe of “previous_2_years”, the timeframe would stretch from the start of two years ago until the end of last year.</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousMinute">
+            <summary>
+            convenience for “previous_1_minute”
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousHour">
+            <summary>
+            convenience for “previous_1_hour”
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.Yesterday">
+            <summary>
+             previous_day - convenience for “previous_1_day”
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousWeek">
+            <summary>
+            convenience for “previous_1_week”
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousMonth">
+            <summary>
+            convenience for “previous_1_months”
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryRelativeTimeframe.PreviousYear">
+            <summary>
+            convenience for “previous_1_years”
+            </summary>
+        </member>
+        <member name="T:Keen.Core.Query.QueryAbsoluteTimeframe">
+            <summary>
+            A pair of dates representing a time interval.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryType.Count">
+            <summary>
+            Returns the number of resources in the event collection. Parameter targetProperty is ignored.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryType.CountUnique">
+            <summary>
+            Returns the number of unique resources in the event collection.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryType.Minimum">
+            <summary>
+            Returns the minimum value for the target property in the event collection.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryType.Maximum">
+            <summary>
+            Returns the maximum value for the target property in the event collection.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryType.Average">
+            <summary>
+            Returns the average across all numeric values for the target property.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryType.Sum">
+            <summary>
+            Returns the sum of all numeric resources in the event collection.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.Query.QueryType.SelectUnique">
+            <summary>
+            Returns a list of unique resources in the event collection.
+            </summary>
+        </member>
+        <member name="T:Keen.Core.EventCache.CachedEvent">
+            <summary>
+            CachedEvent is a container for user event data which associates the
+            target event collection name and, if an error occurs during submission,
+            the exception instance.
+            </summary>
+        </member>
+        <member name="T:Keen.Core.DynamicPropertyValue">
+            <summary>
+            An instance of DynamicPropertyValue containing a delegate 
+            can be added to the GlobalProperties collection. When AddEvent
+            inserts GlobalProperties into an event, the delegate will be
+            executed to provide the value of the property.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.DynamicPropertyValue.Value">
+            <summary>
+            Call the delegate that produces the property value
+            </summary>
+            <returns>The value produced by the delegate</returns>
+        </member>
+        <member name="M:Keen.Core.DynamicPropertyValue.#ctor(System.Func{System.Object})">
+            <summary>
+            
+            </summary>
+            <param name="value">A delegate that will be called each time the property value is required</param>
+        </member>
+        <member name="T:Keen.Core.Event">
+            <summary>
+            Event implements the IEvent interface which represents the Keen.IO Event API methods.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.IEvent.GetSchemas">
+            <summary>
+            Return schema information for all the event collections in this project.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.IEvent.AddEvents(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Insert multiple events in one or more collections in a single request.
+            </summary>
+            <param name="events"></param>
+            <returns>Enumerable containing any rejected events</returns>
+        </member>
+        <member name="M:Keen.Core.Event.GetSchemas">
+            <summary>
+            Get details of all schemas in the project.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.Event.AddEvents(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Add all events in a single request.
+            </summary>
+            <param name="events"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Keen.Core.EventCachePortable">
+            <summary>
+            <para>EventCachePortable implements the IEventCache interface using
+            file-based storage via the PCLStorage library. It has no
+            cache-expiration policy.</para>
+            <para>To use, pass an instance of this class when constructing KeenClient.
+            To construct a new instance, call the static New() method.</para>
+            </summary>
+        </member>
+        <member name="M:Keen.Core.EventCachePortable.New">
+            <summary>
+            Create, initialize and return an instance of EventCachePortable.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.EventCachePortable.NewAsync">
+            <summary>
+            Create, initialize and return an instance of EventCachePortable.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Keen.Core.EventCollection">
+            <summary>
+            EventCollection implements the IEventCollection interface which represents the Keen.IO EventCollection API methods.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.IEventCollection.GetSchema(System.String)">
+            <summary>
+            Returns schema information for this event collection.
+            </summary>
+            <param name="collection"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.IEventCollection.DeleteCollection(System.String)">
+            <summary>
+            Delete the entire event collection.
+            </summary>
+            <param name="collection">Name of collection</param>
+        </member>
+        <member name="M:Keen.Core.IEventCollection.AddEvent(System.String,Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Insert one event at a time in a single request.
+            </summary>
+            <param name="collection">Name of collection</param>
+            <param name="anEvent">Event data to insert</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenUtil.ValidatePropertyName(System.String)">
+            <summary>
+            Apply property name restrictions. Throws KeenException with an 
+            explanation if a collection name is unacceptable.
+            </summary>
+            <param name="property"></param>
+        </member>
+        <member name="M:Keen.Core.KeenUtil.ValidateEventCollectionName(System.String)">
+            <summary>
+            Apply the collection name restrictions. Throws KeenException with an 
+            explanation if a collection name is unacceptable.
+            </summary>
+            <param name="collection"></param>
+        </member>
+        <member name="M:Keen.Core.KeenUtil.GetBulkApiError(Newtonsoft.Json.Linq.JObject)">
+            <summary>
+            Check the 'error' field on a bulk insert operation response and return 
+            the appropriate exception.
+            </summary>
+            <param name="apiResponse">Deserialized json response from a Keen API call.</param>
+        </member>
+        <member name="M:Keen.Core.KeenUtil.CheckApiErrorCode(System.Object)">
+            <summary>
+            Check the 'error_code' field and throw the appropriate exception if non-null.
+            </summary>
+            <param name="apiResponse">Deserialized json response from a Keen API call.</param>
+        </member>
+        <member name="M:Keen.Core.KeenUtil.TryUnwrap(System.AggregateException)">
+            <summary>
+            Flatten an AggregateException and if only one exception instance is found 
+            in the innerexceptions, return it, otherwise return the original 
+            AggregateException unchanged.
+            </summary>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Keen.Core.IProjectSettings">
+            <summary>
+            Values required to access a Keen project
+            </summary>
+        </member>
+        <member name="P:Keen.Core.IProjectSettings.KeenUrl">
+            <summary>
+            The Keen.IO URL for this project. Usually this will be the
+            server address and API version.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.IProjectSettings.ProjectId">
+            <summary>
+            The Project ID, identifying the data silo to be accessed.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.IProjectSettings.MasterKey">
+            <summary>
+            The Master API key, required for getting a collection schema
+            or deleting the entire event collection.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.IProjectSettings.WriteKey">
+            <summary>
+            The Write API key, required for inserting events.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.IProjectSettings.ReadKey">
+            <summary>
+            The Read API key, used with query requests.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.ProjectSettingsProvider.#ctor(System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Obtains project setting values as constructor parameters
+            </summary>
+            <param name="keenUrl">Base Keen.IO service URL, required</param>
+            <param name="projectId">Keen project id, required</param>
+            <param name="masterKey">Master API key, required for getting schema or deleting collections</param>
+            <param name="writeKey">Write API key, required for inserting events</param>
+            <param name="readKey">Read API key</param>
+        </member>
+        <member name="P:Keen.Core.ProjectSettingsProvider.KeenUrl">
+            <summary>
+            The Keen.IO URL for this project. Usually this will be the
+            server address and API version.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.ProjectSettingsProvider.ProjectId">
+            <summary>
+            The Project ID, identifying the data silo to be accessed.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.ProjectSettingsProvider.MasterKey">
+            <summary>
+            The Master API key, required for getting a collection schema
+            or deleting the entire event collection.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.ProjectSettingsProvider.WriteKey">
+            <summary>
+            The Write API key, required for inserting events.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.ProjectSettingsProvider.ReadKey">
+            <summary>
+            The Read API key, used with query requests.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.KeenClient.AddGlobalProperty(System.String,System.Object)">
+            <summary>
+            Add a static global property. This property will be added to
+            every event.
+            </summary>
+            <param name="property">Property name</param>
+            <param name="value">Property value. This may be a simple value, array, or object,
+            or an object that supports IDynamicPropertyValue returning one of those.</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.#ctor(Keen.Core.IProjectSettings)">
+            <summary>
+            
+            </summary>
+            <param name="prjSettings">A ProjectSettings instance containing the ProjectId and API keys</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.#ctor(Keen.Core.IProjectSettings,Keen.Core.EventCache.IEventCache)">
+            <summary>
+            
+            </summary>
+            <param name="prjSettings">A ProjectSettings instance containing the ProjectId and API keys</param>
+            <param name="eventCache">An IEventCache instance providing a caching strategy</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.DeleteCollectionAsync(System.String)">
+            <summary>
+            Delete the specified collection. Deletion may be denied for collections with many events.
+            Master API key is required.
+            </summary>
+            <param name="collection">Name of collection to delete.</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.DeleteCollection(System.String)">
+            <summary>
+            Delete the specified collection. Deletion may be denied for collections with many events.
+            Master API key is required.
+            </summary>
+            <param name="collection">Name of collection to delete.</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.GetSchemasAsync">
+            <summary>
+            Return schema information for all the event collections in this project.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.GetSchemas">
+            <summary>
+            Return schema information for all the event collections in this project.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.GetSchemaAsync(System.String)">
+            <summary>
+            Retrieve the schema for the specified collection. This requires
+            a value for the project settings Master API key.
+            </summary>
+            <param name="collection"></param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.GetSchema(System.String)">
+            <summary>
+            Retrieve the schema for the specified collection. This requires
+            a value for the project settings Master API key.
+            </summary>
+            <param name="collection"></param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.AddEvents(System.String,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Insert multiple events in a single request.
+            </summary>
+            <param name="collection">Collection name</param>
+            <param name="eventsInfo">Collection of events to add</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.AddEventsBulkAsync(System.String,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Add a collection of events to the specified collection. Assumes that
+            objects in the collection have already been through AddEvent to receive
+            global properties. 
+            </summary>
+            <param name="collection">Collection name</param>
+            <param name="eventsInfo">Collection of events to add</param>
+            <returns>Enumerable of any rejected events</returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.AddEventsAsync(System.String,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Add a collection of events to the specified collection
+            </summary>
+            <param name="collection">Collection name</param>
+            <param name="eventsInfo">Collection of events to add</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.AddEventAsync(System.String,System.Object)">
+            <summary>
+            Add a single event to the specified collection.
+            </summary>
+            <param name="collection">Collection name</param>
+            <param name="eventInfo">The event to add.</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.PrepareUserObject(System.Object)">
+            <summary>
+            Convert a user-supplied object to a JObject that can be sent to the Keen.IO API.
+            
+            This writes any global properies to the object and records the time.
+            </summary>
+            <param name="eventInfo"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.AddEvent(System.String,System.Object)">
+            <summary>
+            Add a single event to the specified collection.
+            </summary>
+            <param name="collection">Collection name</param>
+            <param name="eventInfo">An object representing the event to be added.</param>
+        </member>
+        <member name="M:Keen.Core.KeenClient.SendCachedEvents">
+            <summary>
+            Submit all events found in the event cache. If an events are rejected by the server, 
+            KeenCacheException will be thrown with a listing of the rejected events, each with
+            the error message it received.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.KeenClient.SendCachedEventsAsync">
+            <summary>
+            Submit all events found in the event cache. If an events are rejected by the server, 
+            KeenCacheException will be thrown with a listing of the rejected events, each with
+            the error message it received.
+            </summary>
+        </member>
+        <member name="M:Keen.Core.KeenClient.GetQueries">
+            <summary>
+            Retrieve a list of all the queries supported by the API.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryAsync(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Call any Keen.IO API function with the specified parameters.
+            </summary>
+            <param name="queryName"></param>
+            <param name="parms"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.Query(System.String,System.Collections.Generic.Dictionary{System.String,System.String})">
+            <summary>
+            Call any Keen.IO API function with the specified parameters. Refer to Keen API documentation for
+            details of request parameters and return type. Return type may be cast as dynamic.
+            </summary>
+            <param name="queryName">Query name, e.g., KeenConstants.QueryCount</param>
+            <param name="parms">Parameters for query, API keys are not required here.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryAsync(Keen.Core.Query.QueryType,System.String,System.String,Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Run a query returning a single value.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.Query(Keen.Core.Query.QueryType,System.String,System.String,Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Return a single value.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryGroupAsync(Keen.Core.Query.QueryType,System.String,System.String,System.String,Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Returns values collected by group.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="groupBy">Name of a collection field by which to group results.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryGroup(Keen.Core.Query.QueryType,System.String,System.String,System.String,Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Returns values collected by group.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="groupBy">Name of a collection field by which to group results.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryIntervalAsync(Keen.Core.Query.QueryType,System.String,System.String,Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Return values collected by time interval.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryInterval(Keen.Core.Query.QueryType,System.String,System.String,Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Returns values collected by time interval.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryIntervalGroupAsync(Keen.Core.Query.QueryType,System.String,System.String,System.String,Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Returns items collected by time interval and group.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="groupBy">Name of field by which to group results.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryIntervalGroup(Keen.Core.Query.QueryType,System.String,System.String,System.String,Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Returns items collected by time interval and group.
+            </summary>
+            <param name="queryType">Type of query to run.</param>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="targetProperty">Name of property to analyse.</param>
+            <param name="groupBy">Name of field by which to group results.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryExtractResourceAsync(System.String,Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.Int32,System.String)">
+            <summary>
+            Extract full-form event data with all property values. 
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="latest">Request up to 100 of the most recent events added to a given collection.</param>
+            <param name="email">If specified, email will be sent when the data is ready for download. Otherwise, it will be returned directly.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryExtractResource(System.String,Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.Int32,System.String)">
+            <summary>
+            Extract full-form event data with all property values. 
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="latest">Request up to 100 of the most recent events added to a given collection.</param>
+            <param name="email">If specified, email will be sent when the data is ready for download. Otherwise, it will be returned directly.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryFunnelAsync(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.FunnelStep},Keen.Core.Query.QueryTimeframe,System.String)">
+            <summary>
+            Funnels count relevant events in succession. See API documentation for details.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="steps">Analysis steps for funnel.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryFunnel(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.FunnelStep},Keen.Core.Query.QueryTimeframe,System.String)">
+            <summary>
+            Funnels count relevant events in succession. See API documentation for details.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="steps">Analysis steps for funnel.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysisAsync(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Run multiple types of analysis over the same data.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysis(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Run multiple types of analysis over the same data.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysisGroupAsync(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String,System.String)">
+            <summary>
+            Run multiple types of analysis over the same data,
+            grouped by the specified field.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="groupBy">Name of a collection field by which to group results.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysisGroup(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String,System.String)">
+            <summary>
+            Run multiple types of analysis over the same data,
+            grouped by the specified field.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="filters">Filter to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="groupBy">Name of a collection field by which to group results.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysisIntervalAsync(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Run multiple types of analysis over the same data.
+            Each item represents one interval.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysisInterval(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String)">
+            <summary>
+            Run multiple types of analysis over the same data.
+            Each item represents one interval.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysisIntervalGroupAsync(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String,System.String)">
+            <summary>
+            Run multiple types of analysis over the same data.
+            Each item contains information about the groupings in that interval.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="groupBy">Name of field by which to group results.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Keen.Core.KeenClient.QueryMultiAnalysisIntervalGroup(System.String,System.Collections.Generic.IEnumerable{Keen.Core.Query.MultiAnalysisParam},Keen.Core.Query.QueryTimeframe,Keen.Core.Query.QueryInterval,System.Collections.Generic.IEnumerable{Keen.Core.Query.QueryFilter},System.String,System.String)">
+            <summary>
+            Run multiple types of analysis over the same data.
+            Each item contains information about the groupings in that interval.
+            </summary>
+            <param name="collection">Name of event collection to query.</param>
+            <param name="analysisParams">Defines the multiple types of analyses to perform.</param>
+            <param name="groupBy">Name of field by which to group results.</param>
+            <param name="timeframe">Specifies window of time from which to select events for analysis. May be absolute or relative.</param>
+            <param name="interval">The block size for partitioning the specified timeframe. Optional, may be null.</param>
+            <param name="filters">Filters to narrow down the events used in analysis. Optional, may be null.</param>
+            <param name="timezone">The timezone to use when specifying a relative timeframe. Optional, may be blank.</param>
+            <returns></returns>
+        </member>
+        <member name="P:Keen.Core.KeenClient.EventCollection">
+            <summary>
+            EventCollection provides direct access to the Keen.IO EventCollection API methods.
+            It is not normally necessary to use this property.
+            The default implementation can be overridden by setting a new implementation here.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.KeenClient.Event">
+            <summary>
+            Event provides direct access to the Keen.IO Event API methods.
+            It is not normally necessary to use this property.
+            The default implementation can be overridden by setting a new implementation here.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.KeenClient.EventCache">
+            <summary>
+            EventCache provides a caching implementation allowing events to be cached locally
+            instead of being sent one at a time. It is not normally necessary to use this property.
+            The implementation is responsible for cache  maintenance policy, such as trimming 
+            old entries to avoid excessive cache size.
+            </summary>
+        </member>
+        <member name="P:Keen.Core.KeenClient.Queries">
+            <summary>
+            Queries provides direct access to the Keen.IO Queries API methods.
+            It is not normally necessary to use this property.
+            The default implementation can be overridden by setting a new implementation here.
+            </summary>
+        </member>
+    </members>
+</doc>

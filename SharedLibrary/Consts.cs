@@ -15,9 +15,13 @@ namespace SharedLibrary
         public static readonly string ORIGIN             = "https://play.google.com";
         public static readonly string REFERER            = "https://play.google.com/store/apps";
         public static readonly string INITIAL_POST_DATA  = "ipf=1&xhr=1";
-        public static readonly string POST_DATA          = "start={0}&num=48&numChildren=0&ipf=1&xhr=1";
+        
+        // Old Post Data - To Allow Rolling Back if Needed
+        // public static readonly string POST_DATA          = "start={0}&num=48&numChildren=0&ipf=1&xhr=1";
+        
+        public static readonly string POST_DATA          = "start=0&num=0&numChildren=0&pagTok={0}&ipf=1&xhr=1";
         public static readonly string APP_URL_PREFIX     = "https://play.google.com";
-        public static readonly string ACCEPT_LANGUAGE    = "Accept-Language: en-US;q=0.6,en;q=0.4,es;q=0.2";
+        public static readonly string ACCEPT_LANGUAGE    = "Accept-Language: en-US,en;q=0.6,en;q=0.4,es;q=0.2";
         public static readonly string REVIEWS_POST_DATA  = "reviewType=0&pageNum={0}&id={1}&reviewSortOrder=2&xhr=1";
         public static readonly string USER_AGENT         = "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.124 Safari/537.36";
 
@@ -49,6 +53,7 @@ namespace SharedLibrary
         public static readonly string EXTRA_APPS         = "//div[@class='card-content id-track-click id-track-impression']/a[@class='card-click-target']";
         public static readonly string IN_APP_PURCHASE    = "//div[@class='info-container']/div[@class='inapp-msg']";
         public static readonly string DEVELOPER_URLS     = "//div[@class='content contains-text-link']/a[@class='dev-link']";
+        public static readonly string PHYSICAL_ADDRESS   = "//div[@class='content physical-address']";
 
         // HTML Values
         public static readonly string NO_RESULT_MESSAGE = "Nenhum resultado para sua pesquisa"; // TODO: CHANGE THIS TO YOUR OWN LANGUAGE. 
@@ -68,9 +73,9 @@ namespace SharedLibrary
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
         public static readonly string MONGO_DATABASE         = "PlayStore";
-        public static readonly string MONGO_COLLECTION       = "ProcessedApps";
+        public static readonly string MONGO_COLLECTION       = "ProcessedApps_2015";
         public static readonly string REVIEWS_COLLECTION     = "ProcessedReviews";
-        public static readonly string QUEUED_APPS_COLLECTION = "QueuedApps";
+        public static readonly string QUEUED_APPS_COLLECTION = "QueuedApps_2015";
         public static readonly string MONGO_AUTH_DB          = "PlayStore";
         public static readonly int    MONGO_TIMEOUT          = 10000;
 

@@ -41,7 +41,7 @@ namespace SharedLibrary.MongoDB
             _server         = new MongoClient (_connString).GetServer ();
             _database       = _server.GetDatabase (databaseName);
             _collectionName = collectionName;
-            _entity         = entity;            
+            _entity         = entity;          
         }
 
         /// <summary>
@@ -64,14 +64,21 @@ namespace SharedLibrary.MongoDB
         /// <returns>IEnumerable of the type selected</returns>
         public IEnumerable<T> FindAll<T> ()
         {
-            return _database.GetCollection<T> (_collectionName).FindAll ();
+            return _database.GetCollection<T> (_collectionName).FindAll ().SetFlags(QueryFlags.NoCursorTimeout);
         }
 
-        public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit, int skip, string collectionName = "")
+        public IEnumerable<T> FindMatch<T> (IMongoQuery mongoQuery, int limit = -1, int skip = 0, string collectionName = "")
         {
            collectionName = String.IsNullOrEmpty (collectionName) ? _collectionName : collectionName;
 
-           return _database.GetCollection<T>(collectionName).Find(mongoQuery).SetLimit(limit).SetSkip (skip);            
+           if (limit != -1)
+           {
+               return _database.GetCollection<T> (collectionName).Find (mongoQuery).SetFlags (QueryFlags.NoCursorTimeout).SetLimit (limit).SetSkip (skip);
+           }
+           else
+           {
+               return _database.GetCollection<T> (collectionName).Find (mongoQuery).SetFlags (QueryFlags.NoCursorTimeout).SetSkip (skip);
+           }
         }
 
         /// <summary>
@@ -178,6 +185,19 @@ namespace SharedLibrary.MongoDB
         {
             var mongoQuery = Query.EQ ("Url", url);
             _database.GetCollection<QueuedApp> (Consts.QUEUED_APPS_COLLECTION).Remove (mongoQuery);
+        }
+
+        public void EnsureIndex (string fieldName, string collectionName = null)
+        {
+            string collection = collectionName == null ? _collectionName : collectionName;
+            _database.GetCollection (collection).CreateIndex (IndexKeys.Ascending (fieldName), IndexOptions.SetBackground (true));
+        }
+
+        public void SetUpdated (string url)
+        {
+            var query = Query.EQ("Url", url);
+
+            _database.GetCollection (_collectionName).Update (query, Update.Set("Uploaded", true));
         }
     }
 }

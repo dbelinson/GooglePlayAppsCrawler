@@ -26,7 +26,7 @@ namespace PlayStoreWorker
             PlayStoreParser parser = new PlayStoreParser();
 
             // Configuring MongoDB Wrapper
-            MongoDBWrapper mongoDB = new MongoDBWrapper();
+            MongoDBWrapper mongoDB   = new MongoDBWrapper();
             string fullServerAddress = String.Join(":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
             mongoDB.ConfigureDatabase(Consts.MONGO_USER, Consts.MONGO_PASS, Consts.MONGO_AUTH_DB, fullServerAddress, Consts.MONGO_TIMEOUT, Consts.MONGO_DATABASE, Consts.MONGO_COLLECTION);
 
@@ -58,11 +58,11 @@ namespace PlayStoreWorker
                     }
 
                     // Configuring server and Issuing Request
-                    server.Headers.Add(Consts.ACCEPT_LANGUAGE);
-                    server.Host = Consts.HOST;
-                    server.Encoding = "utf-8";
+                    server.Headers.Add (Consts.ACCEPT_LANGUAGE);
+                    server.Host              = Consts.HOST;
+                    server.Encoding          = "utf-8";
                     server.EncodingDetection = WebRequests.CharsetDetection.DefaultCharset;
-                    string response = server.Get (appUrl);
+                    string response          = server.Get (appUrl);
 
                     // Flag Indicating Success while processing and parsing this app
                     bool ProcessingWorked = true;
@@ -152,6 +152,9 @@ namespace PlayStoreWorker
 
                         // Console Feedback
                         Console.WriteLine ("Queued " + newExtraApps + " / " + extraAppsCounter + " related apps");
+
+                        // Hiccup (used to minimize blocking issues)
+                        Thread.Sleep (300);
                     }
                 }
                 catch (Exception ex)

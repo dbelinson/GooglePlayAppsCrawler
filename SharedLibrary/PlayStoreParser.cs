@@ -161,8 +161,8 @@ namespace SharedLibrary
             }
 
             // Parsing number of app reviewers
-            currentNode         = map.DocumentNode.SelectSingleNode (Consts.APP_REVIEWERS);
-            string reviewers    = currentNode == null ? String.Empty : currentNode.InnerText.Trim().Trim ('(').Trim(')');
+            currentNode            = map.DocumentNode.SelectSingleNode (Consts.APP_REVIEWERS);
+            string reviewers       = currentNode == null ? String.Empty : currentNode.InnerText.Trim().Trim ('(').Trim(')');
             double parsedReviewers = 0;
             
             if (Double.TryParse (reviewers, out parsedReviewers))
@@ -306,6 +306,10 @@ namespace SharedLibrary
                 }  
             }
 
+            // Parsing Physical Address (if available)
+            currentNode = map.DocumentNode.SelectSingleNode (Consts.PHYSICAL_ADDRESS);
+            parsedApp.PhysicalAddress = currentNode == null ? String.Empty : currentNode.InnerText.Replace("\n"," ").Trim ();
+            
             return parsedApp;
         }
 
