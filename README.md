@@ -7,6 +7,8 @@ Important Updates:
 
 **Update 3: Added Analytics Features - Powered by Keen.IO**
 
+**Update 4: Updated database is up (January 2015) - Including emails, developer sites and physical addresses**
+
 GooglePlayStoreCrawler
 ======================
 
@@ -28,7 +30,7 @@ Alternativelly, you can use the "AppsExporter" project that i included to write 
 Since the exported database contains more than 1 milion lines, you will have to use one text editor such as "EM Editor" for opening the file. Regular text editor such as Notepad++ and Sublime won't open it and will crash.
 
 # About me
-My name is Marcello Lins, i am a 23 y/o developer from Brazil who works with BigData and DataMining techniques at the moment.
+My name is Marcello Lins, i am a 24 y/o developer from Brazil who works with BigData and DataMining techniques at the moment.
 
 http://about.me/marcellolins
 

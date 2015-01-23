@@ -6,6 +6,7 @@ using SharedLibrary;
 using SharedLibrary.Models;
 using SharedLibrary.MongoDB;
 using WebUtilsLib;
+using System.Diagnostics;
 
 namespace PlayStoreWorker
 {
@@ -83,12 +84,15 @@ namespace PlayStoreWorker
 
                         // Checking for maximum retry count
                         double waitTime;
-                        if (retryCounter >= 11)
+                        if (retryCounter >= 7)
                         {
                             waitTime = TimeSpan.FromMinutes (35).TotalMilliseconds;
 
                             // Removing App from the database (this the app page may have expired)
                             mongoDB.RemoveFromQueue (app.Url);
+
+                            Process.Start ("PlayStoreWorker.exe");
+                            Process.GetCurrentProcess ().Kill ();
                         }
                         else
                         {
