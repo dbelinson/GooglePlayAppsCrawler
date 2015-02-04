@@ -9,6 +9,11 @@ Important Updates:
 
 **Update 4: Updated database is up (January 2015) - Including emails, developer sites and physical addresses**
 
+New: Donate-Button
+======================
+
+<a href='https://pledgie.com/campaigns/28270'><img alt='Click here to lend your support to: Google Play Store in Numbers - Open Source Crawler and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28270.png?skin_name=chrome' border='0' ></a>
+
 GooglePlayStoreCrawler
 ======================
 
