@@ -14,6 +14,8 @@ New: Donate-Button
 
 <a href='https://pledgie.com/campaigns/28270'><img alt='Click here to lend your support to: Google Play Store in Numbers - Open Source Crawler and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28270.png?skin_name=chrome' border='0' ></a>
 
+Every 100 USD received in donations, I will run a new full-capture of the Play Store and update both the live and the exported versions of the database. Make it happen !
+
 GooglePlayStoreCrawler
 ======================
 
