@@ -9,7 +9,7 @@ Important Updates:
 
 **Update 4: Updated database is up (January 2015) - Including emails, developer sites and physical addresses**
 
-** Update 5: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations). Please, if you have downloaded the database, consider donating. 1-2 USD will probably cover your download cost **
+**Update 5: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations). Please, if you have downloaded the database, consider donating. 1-2 USD will probably cover your download cost**
 
 New: Donate-Button
 ======================
