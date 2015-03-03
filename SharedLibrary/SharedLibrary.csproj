@@ -50,16 +50,24 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Ude">
+      <HintPath>..\packages\UDE.CSharp.1.1.0\lib\Ude.dll</HintPath>
+    </Reference>
+    <Reference Include="WebUtilsLib">
+      <HintPath>..\packages\WebUtilsLib.1.0.5\lib\net45\WebUtilsLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Consts.cs" />
     <Compile Include="Models\AppModel.cs" />
     <Compile Include="Models\AppReview.cs" />
     <Compile Include="Models\QueuedApp.cs" />
+    <Compile Include="Models\ReviewerPageData.cs" />
     <Compile Include="MongoDB\MongoDBContext.cs" />
     <Compile Include="MongoDB\MongoDBWrapper.cs" />
     <Compile Include="PlayStoreParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reviews\ReviewsWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SharedLibrary;
 using SharedLibrary.Models;
 using SharedLibrary.MongoDB;
+using SharedLibrary.Reviews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,9 +66,6 @@ namespace ReviewsParser
 
             LogWriter.Info ("Iterating over Apps");
 
-            // App URL Prefix (must be removed in order to obtain the app ID)
-            string playStorePrefix = "https://play.google.com/store/apps/details?id=";
-
             // Creating Play Store Parser
             PlayStoreParser parser = new PlayStoreParser ();
 
@@ -75,7 +73,7 @@ namespace ReviewsParser
             foreach (var appRecord in mongoClient.FindMatch<AppModel>(mongoQuery, _arguments["AppsToProcess"], _arguments["AppsToSkip"]))
             {
                 // Extracting app ID from URL
-                string appId = appRecord.Url.Replace(playStorePrefix, String.Empty);
+                string appId = appRecord.Url.Replace(Consts.PLAY_STORE_PREFIX, String.Empty);
 
                 // Console Feedback
                 LogWriter.Info("Processing App [ " + appRecord.Name + " ] ");
@@ -95,7 +93,7 @@ namespace ReviewsParser
                         LogWriter.Info("\tCurrent Page: " + currentPage);
 
                         // Issuing Request for Reviews
-                        string response = GetAppReviews(appId, currentPage);
+                        string response = ReviewsWrapper.GetAppReviews (appId, currentPage);
 
                         // Checking for Blocking Situation
                         if (String.IsNullOrEmpty(response))
@@ -114,7 +112,7 @@ namespace ReviewsParser
                         }
 
                         // Normalizing Response to Proper HTML
-                        response = NormalizeResponse(response);
+                        response = ReviewsWrapper.NormalizeResponse (response);
 
                         // Iterating over Parsed Reviews
                         foreach (var review in parser.ParseReviews(response))
@@ -150,42 +148,6 @@ namespace ReviewsParser
                     }
                 }
             }
-        }
-
-        private static string GetAppReviews (string appID, int reviewsPage)
-        {
-            // Creating Instance of HTTP Requests Handler
-            using (WebRequests httpClient = new WebRequests ())
-            {
-                // Configuring Request Object
-                httpClient.Host              = Consts.HOST;
-                httpClient.Origin            = Consts.ORIGIN;
-                httpClient.Encoding          = "utf-8";
-                httpClient.AllowAutoRedirect = true;
-                httpClient.Accept            = "*/*";
-                httpClient.UserAgent         = Consts.USER_AGENT;
-                httpClient.ContentType       = "application/x-www-form-urlencoded;charset=UTF-8";
-                httpClient.EncodingDetection = WebRequests.CharsetDetection.DefaultCharset;
-                httpClient.Headers.Add (Consts.ACCEPT_LANGUAGE);
-
-                // Assembling Post Data
-                string postData = String.Format (Consts.REVIEWS_POST_DATA, reviewsPage, appID);
-
-                // Issuing Request
-                return httpClient.Post (Consts.REVIEWS_URL, postData);
-            }
-        }
-
-        private static string NormalizeResponse (string jsonResponse)
-        {
-            // Replacing invalid characters with valid ones to ensure HTML correct formation
-            string validHTML = jsonResponse.Replace ("\\u003c", "<").Replace ("\\u003d", "=").Replace ("\\u003e", ">")
-                                           .Replace ("\\u0026amp;", "&").Replace (@"\""", @"""");
-
-            // Removing HTML Garbage
-            validHTML = validHTML.Substring  (validHTML.IndexOf ("<div class="));
-
-            return validHTML;
         }
 
         // Redirects the Logging Events to the console instead of an log file

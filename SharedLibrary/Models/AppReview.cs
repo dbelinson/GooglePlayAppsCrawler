@@ -13,6 +13,7 @@ namespace SharedLibrary.Models
         public string   appName     { get; set; }
         public string   appID       { get; set; }
         public string   appURL      { get; set; }
+        public string   authorUrl   { get; set; }
         public string   authorName  { get; set; }
         public DateTime reviewDate  { get; set; }
         public string   permalink   { get; set; }

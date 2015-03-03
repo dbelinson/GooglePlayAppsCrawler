@@ -393,7 +393,7 @@ namespace SharedLibrary
             if (day.Length < 2)
                 day = "0" + day;
 
-            dateString = String.Join (" ",year, month, day);
+            dateString = String.Join (" ", year, month, day);
 
             return DateTime.ParseExact (dateString, Consts.DATE_FORMAT, System.Globalization.CultureInfo.InvariantCulture);
         }
@@ -411,11 +411,12 @@ namespace SharedLibrary
 
                 try
                 {
-                    
+                    // Parsing Reviewer Url ".//a[contains(href,'/people/details')]"
+                    reviewInstance.authorUrl = Consts.ORIGIN + reviewNode.SelectSingleNode ("./a").Attributes["href"].Value;
 
                     // Parsing data out of each review node
                     reviewInstance.authorName = reviewNode.SelectSingleNode (".//span[contains(@class,'author-name')]/a").InnerText;
-                    
+
                     // Assembling Full Permalink for review
                     reviewInstance.permalink = String.Concat
                         (
@@ -437,21 +438,67 @@ namespace SharedLibrary
                     reviewInstance.starRatings = ratingWidthInt / 20;
 
                     // Parsing Review Title
-                    HtmlNode reviewParentNode   = reviewNode.SelectSingleNode (".//div[contains(@class,'review-body')]");
-                    reviewInstance.reviewTitle  = reviewParentNode.FirstChild.NextSibling.InnerText.Trim ();
+                    HtmlNode reviewParentNode = reviewNode.SelectSingleNode (".//div[contains(@class,'review-body')]");
+                    reviewInstance.reviewTitle = reviewParentNode.FirstChild.NextSibling.InnerText.Trim ();
 
                     // Removing Review Title Node out of parent node to be able to fetch the review body correctly
                     reviewParentNode.RemoveChild (reviewParentNode.FirstChild);
 
                     reviewInstance.reviewBody = reviewParentNode.InnerText.Replace ("Full Review", String.Empty).Trim ();
                 }
-                catch // Do not return app review if some exception was thrown
+                catch (Exception ex)// Do not return app review if some exception was thrown
                 {
+                    string msg = ex.Message;
                     continue;
                 }
 
                 yield return reviewInstance;
             }
+        }
+
+        public ReviewerPageData ParsePeopleData (string response)
+        {
+            ReviewerPageData reviewerData = new ReviewerPageData ();
+
+            // Loading HTML Map
+            HtmlDocument map = new HtmlDocument ();
+            map.LoadHtml (response);
+
+            // Reaching User Name
+            reviewerData.reviewerName = map.DocumentNode.SelectSingleNode ("//div[@class='person-name']").InnerText;
+
+            // Creating list of reviews for this user
+            reviewerData.reviews = new List<UserReviewSummary> ();
+
+            try
+            {
+                // Reaching Reviewed Apps
+                foreach (var reviewedApp in map.DocumentNode.SelectNodes ("//div[@class='card-list']/div[@class='card one-rationale square-cover apps medium']"))
+                {
+                    // App Id Node
+                    var appIdValue = reviewedApp.SelectSingleNode (".//a[@class='card-click-target']").Attributes["href"].Value.Replace ("/store/apps/details?id=", "");
+
+                    // App Name Node
+                    var appNameValue = reviewedApp.SelectSingleNode (".//meta[@itemprop='name']").Attributes["content"].Value;
+
+                    // Stars Rated
+                    var starsRating = String.Empty + reviewedApp.SelectSingleNode (".//a[@class='reason-body']").InnerText.Where (t => Char.IsNumber (t)).First ();
+
+                    // Adding each review to it's list
+                    reviewerData.reviews.Add (new UserReviewSummary ()
+                        {
+                            appId = appIdValue,
+                            appName = appNameValue,
+                            stars = Int32.Parse (starsRating)
+                        });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine ("Error => " + ex.Message);
+            }
+
+            return reviewerData;
         }
     }
 }

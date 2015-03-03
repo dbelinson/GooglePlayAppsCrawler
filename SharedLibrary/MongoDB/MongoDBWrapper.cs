@@ -57,6 +57,25 @@ namespace SharedLibrary.MongoDB
             return _database.GetCollection<T> (collection).SafeInsert (record);
         }
 
+        public bool UpdateRecord (AppModel record, string attribute, string key, string collection = "")
+        {
+            collection = String.IsNullOrEmpty (collection) ? _collectionName : collection;
+
+            // Find Query
+            var mongoQuery = Query.EQ (attribute, key);
+
+            // Finding Record to retrieve it's old Object ID
+            AppModel oldRecord = FindMatch<AppModel> (mongoQuery).FirstOrDefault();
+
+            // Re-setting Object ID of the object
+            record._id = oldRecord._id;
+
+            // Update Query
+            var updateQuery = Update.Replace (record);
+
+            return _database.GetCollection<AppModel> (collection).Update (mongoQuery, updateQuery).Ok;
+        }
+
         /// <summary>
         /// Finds all the record of a certain collection, of a certain type T.
         /// </summary>
@@ -79,6 +98,11 @@ namespace SharedLibrary.MongoDB
            {
                return _database.GetCollection<T> (collectionName).Find (mongoQuery).SetFlags (QueryFlags.NoCursorTimeout).SetSkip (skip);
            }
+        }
+
+        public IEnumerable<String> FindPeopleUrls ()
+        {
+            return _database.GetCollection<AppReview> (Consts.REVIEWS_COLLECTION).FindAll ().Select (t => t.authorUrl);
         }
 
         /// <summary>
@@ -122,6 +146,15 @@ namespace SharedLibrary.MongoDB
             var mongoQuery    = Query.EQ ("Url", appUrl);
 
             var queryResponse = _database.GetCollection<QueuedApp> (Consts.QUEUED_APPS_COLLECTION).FindOne (mongoQuery);
+
+            return queryResponse == null ? false : true;
+        }
+
+        public bool IsReviewerOnDatabase (string reviewerUrl)
+        {
+            var mongoQuery = Query.EQ ("reviewerUrl", reviewerUrl);
+
+            var queryResponse = _database.GetCollection<ReviewerPageData> (Consts.REVIEWERS_COLLECTION).FindOne (mongoQuery);
 
             return queryResponse == null ? false : true;
         }
