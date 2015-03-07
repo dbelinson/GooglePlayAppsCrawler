@@ -9,7 +9,7 @@ Important Updates:
 
 **Update 4: Updated database is up (January 2015) - Including emails, developer sites and physical addresses**
 
-**Update 5: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations). Please, if you have downloaded the database, consider donating. 1-2 USD will probably cover your download cost**
+**Update 5: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations).**
 
 New: Donate-Button
 ======================
@@ -27,10 +27,11 @@ You don't have to input any of your Google Account credentials since this Crawle
 
 # Exporting the Database
 As people kept requesting me, i decided to export the database on it's current state.
-Heres the link for download with the JSON documents on the database : https://s3.amazonaws.com/GooglePlayStore/Play%20Store%20JSON.zip
+I you want the exported file, get in touch with me at : marcello.grechi@gmail.com, and I will send you the file. (I decided not to keep the file public, because there were people downloading the same file 
+over and over again, and not paying for it, which led to a huge AWS bill that I had to pay).
 
 Have in mind that downloading the database costs me money, since i pay for the outbound traffic provided by AWS when you query the database
-So, consider making a donation (via paypal) to marcello.grechi@gmail.com (the value is up to you).
+So, consider making a donation (via paypal) to marcello.grechi@gmail.com (Pay what you want, Humble Bundle style).
 
 Alternativelly, you can use the "AppsExporter" project that i included to write your own query logic, exporting only the records / fields you need, which will be cheaper than downloading the whole database.
 
