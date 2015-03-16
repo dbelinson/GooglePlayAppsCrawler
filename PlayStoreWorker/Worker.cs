@@ -7,6 +7,7 @@ using SharedLibrary.Models;
 using SharedLibrary.MongoDB;
 using WebUtilsLib;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace PlayStoreWorker
 {
@@ -48,7 +49,7 @@ namespace PlayStoreWorker
                     string appUrl = Consts.APP_URL_PREFIX + app.Url;
 
                     // Checking if this app is on the database already
-                    if (mongoDB.AppProcessed(appUrl))
+                    if (mongoDB.AppProcessed (appUrl))
                     {
                         // Console Feedback, Comment this line to disable if you want to
                         Console.WriteLine("Duplicated App, skipped.");
@@ -111,6 +112,17 @@ namespace PlayStoreWorker
                         // Parsing Useful App Data
                         AppModel parsedApp = parser.ParseAppPage (response, appUrl);
 
+                        List<String> relatedApps = new List<String> ();
+
+                        // Parsing "Related Apps" and "More From Developer" Apps (URLS Only)
+                        foreach (string extraAppUrl in parser.ParseExtraApps (response))
+                        {
+                            relatedApps.Add (Consts.APP_URL_PREFIX + extraAppUrl);
+                        }
+
+                        // Adding "Related Apps" to Apps Model
+                        parsedApp.RelatedUrls = relatedApps.Distinct().ToArray ();
+
                         // Inserting App into Mongo DB Database
                         if (!mongoDB.Insert<AppModel>(parsedApp))
                         {
@@ -133,9 +145,9 @@ namespace PlayStoreWorker
 
                         // Counters for console feedback only
                         int extraAppsCounter = 0, newExtraApps = 0;
-
+                        
                         // Parsing "Related Apps" and "More From Developer" Apps (URLS Only)
-                        foreach (string extraAppUrl in parser.ParseExtraApps (response))
+                        foreach (string extraAppUrl in relatedApps)
                         {
                             // Incrementing counter of extra apps
                             extraAppsCounter++;

@@ -55,6 +55,8 @@ namespace SharedLibrary
         public static readonly string IN_APP_PURCHASE    = "//div[@class='info-container']/div[@class='inapp-msg']";
         public static readonly string DEVELOPER_URLS     = "//div[@class='content contains-text-link']/a[@class='dev-link']";
         public static readonly string PHYSICAL_ADDRESS   = "//div[@class='content physical-address']";
+        public static readonly string APP_SCREENSHOTS    = "//div[@class='thumbnails' ]//img[contains(@class,'screenshot')]";
+        public static readonly string WHATS_NEW          = "//div[@class='recent-change']";
 
         // HTML Values
         public static readonly string NO_RESULT_MESSAGE = "Nenhum resultado para sua pesquisa"; // TODO: CHANGE THIS TO YOUR OWN LANGUAGE. 
@@ -74,12 +76,12 @@ namespace SharedLibrary
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
         public static readonly string MONGO_DATABASE         = "PlayStore";
-        public static readonly string MONGO_COLLECTION       = "ProcessedApps_2015";
+        public static readonly string MONGO_COLLECTION       = "ProcessedApps_2015_02";
         public static readonly string REVIEWS_COLLECTION     = "ProcessedReviews";
         public static readonly string QUEUED_APPS_COLLECTION = "QueuedApps_2015";
         public static readonly string REVIEWERS_COLLECTION   = "ReviewersData";
         public static readonly string MONGO_AUTH_DB          = "PlayStore";
-        public static readonly int    MONGO_TIMEOUT          = 10000;
+        public static readonly int    MONGO_TIMEOUT          = 120000;
 
         // Date Time Format
         public static readonly string DATE_FORMAT       = "yyyy MMMM dd";

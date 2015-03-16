@@ -77,6 +77,16 @@ namespace SharedLibrary
             currentNode           = map.DocumentNode.SelectSingleNode (Consts.APP_COVER_IMG);
             parsedApp.CoverImgUrl = currentNode == null ? String.Empty : currentNode.Attributes["src"].Value;
 
+            // Parsing App Screenshots
+            HtmlNodeCollection nodesCollection = map.DocumentNode.SelectNodes (Consts.APP_SCREENSHOTS);
+
+            // Sanity Check
+            if (nodesCollection != null)
+            { 
+                // Dumping "Src" attribute of each node to an array
+                parsedApp.Screenshots = nodesCollection.Select (t => t.Attributes["src"].Value).Distinct().ToArray ();
+            }
+
             // Parsing App Category
             currentNode          = map.DocumentNode.SelectSingleNode (Consts.APP_CATEGORY);
 
@@ -178,6 +188,15 @@ namespace SharedLibrary
             currentNode           = map.DocumentNode.SelectSingleNode (Consts.APP_DESCRIPTION);
             parsedApp.Description = currentNode == null ? String.Empty : currentNode.InnerText.Trim ();
 
+            // Parsing App "What's new" section
+            nodesCollection = map.DocumentNode.SelectNodes (Consts.WHATS_NEW);
+            
+            // Sanity Check
+            if (nodesCollection != null)
+            {
+                parsedApp.WhatsNew = String.Join ("\n", nodesCollection.Select (t => t.InnerText).ToArray ());
+            }
+            
             // Checking for In app Purchases 
             if (map.DocumentNode.SelectSingleNode (Consts.IN_APP_PURCHASE) != null)
             {

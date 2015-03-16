@@ -10,6 +10,7 @@ namespace SharedLibrary.Models
         public ObjectId _id                    {get;set;}
         public DateTime ReferenceDate          {get;set;}
         public string   Url                    {get;set;}
+        public string[] RelatedUrls            {get;set;}
         public string   Name                   {get;set;}
         public string   Developer              {get;set;}
         public bool     IsTopDeveloper         {get;set;}
@@ -20,7 +21,9 @@ namespace SharedLibrary.Models
         public double   Price                  {get;set;}
         public double   Reviewers              {get;set;}
         public string   CoverImgUrl            {get;set;}
+        public string[] Screenshots            {get;set;}
         public string   Description            {get;set;}
+        public string   WhatsNew               {get;set;}
         public Score    Score                  {get;set;}
         public DateTime LastUpdateDate         {get;set;}
         public Double   AppSize                {get;set;}
