@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Linq;
 using System.Threading;
-using BDC.BDCCommons;
 using SharedLibrary;
 using SharedLibrary.Models;
 using SharedLibrary.MongoDB;
 using WebUtilsLib;
 using System.Diagnostics;
 using System.Collections.Generic;
+using NLog;
+using System.IO;
+using SharedLibrary.Proxies;
+using System.Text;
 
 namespace PlayStoreWorker
 {
@@ -18,11 +21,45 @@ namespace PlayStoreWorker
         /// Notice that you can run as many workers as you want to in order to make the crawling faster
         /// </summary>
         /// <param name="args"></param>
-        static void Main(string[] args)
+        static void Main (string[] args)
         {
-            // Configuring Log Object Threshold
-            LogWriter.Threshold = TLogEventLevel.Information;
-            LogWriter.Info ("Worker Started");
+            // Configuring Log Object
+            Logger logger = LogManager.GetCurrentClassLogger ();
+            logger.Info ("Worker Started");
+
+            // Control Variable (Bool - Should the process use proxies? )
+            bool useProxies = false;
+
+            // Checking for the need to use proxies
+            if (args != null && args.Length == 1)
+            {
+                // Setting flag to true
+                useProxies = true;
+
+                // Loading proxies from .txt received as argument
+                String fPath = args[0];
+
+                // Sanity Check
+                if (!File.Exists (fPath))
+                {
+                    logger.Fatal ("Couldnt find proxies on path : " + fPath);
+                    System.Environment.Exit (-100);
+                }
+
+                // Reading Proxies from File
+                string[] fLines = File.ReadAllLines (fPath, Encoding.GetEncoding ("UTF-8"));
+
+                try
+                {
+                    // Actual Load of Proxies
+                    ProxiesLoader.Load (fLines.ToList ());
+                }
+                catch (Exception ex)
+                {
+                    logger.Fatal (ex);
+                    System.Environment.Exit (-101);
+                }
+            }
 
             // Parser
             PlayStoreParser parser = new PlayStoreParser();
@@ -30,11 +67,12 @@ namespace PlayStoreWorker
             // Configuring MongoDB Wrapper
             MongoDBWrapper mongoDB   = new MongoDBWrapper();
             string fullServerAddress = String.Join(":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
-            mongoDB.ConfigureDatabase(Consts.MONGO_USER, Consts.MONGO_PASS, Consts.MONGO_AUTH_DB, fullServerAddress, Consts.MONGO_TIMEOUT, Consts.MONGO_DATABASE, Consts.MONGO_COLLECTION);
+            mongoDB.ConfigureDatabase (Consts.MONGO_USER, Consts.MONGO_PASS, Consts.MONGO_AUTH_DB, fullServerAddress, Consts.MONGO_TIMEOUT, Consts.MONGO_DATABASE, Consts.MONGO_COLLECTION);
 
             // Creating Instance of Web Requests Server
             WebRequests server = new WebRequests ();
             
+            // Queued App Model
             QueuedApp app;
 
             // Retry Counter (Used for exponential wait increasing logic)
@@ -45,8 +83,15 @@ namespace PlayStoreWorker
             {
                 try
                 {
+
                     // Building APP URL
-                    string appUrl = Consts.APP_URL_PREFIX + app.Url;
+                    string appUrl = app.Url;
+
+                    // Sanity check of app page url
+                    if (app.Url.IndexOf ("http", StringComparison.OrdinalIgnoreCase) < 0)
+                    {
+                        appUrl = Consts.APP_URL_PREFIX + app.Url;
+                    }
 
                     // Checking if this app is on the database already
                     if (mongoDB.AppProcessed (appUrl))
@@ -62,8 +107,17 @@ namespace PlayStoreWorker
                     // Configuring server and Issuing Request
                     server.Headers.Add (Consts.ACCEPT_LANGUAGE);
                     server.Host              = Consts.HOST;
+                    server.UserAgent         = Consts.GITHUBURL;
                     server.Encoding          = "utf-8";
                     server.EncodingDetection = WebRequests.CharsetDetection.DefaultCharset;
+
+                    // Checking for the need to use "HTTP Proxies"
+                    if (useProxies)
+                    {
+                        server.Proxy = ProxiesLoader.GetWebProxy ();
+                    }
+
+                    // Issuing HTTP Request
                     string response          = server.Get (appUrl);
 
                     // Flag Indicating Success while processing and parsing this app
@@ -72,7 +126,7 @@ namespace PlayStoreWorker
                     // Sanity Check
                     if (String.IsNullOrEmpty (response) || server.StatusCode != System.Net.HttpStatusCode.OK)
                     {
-                        LogWriter.Info ("Error opening app page : " + appUrl);
+                        logger.Info ("Error opening app page : " + appUrl);
                         ProcessingWorked = false;
                         
                         // Renewing WebRequest Object to get rid of Cookies
@@ -170,12 +224,12 @@ namespace PlayStoreWorker
                         Console.WriteLine ("Queued " + newExtraApps + " / " + extraAppsCounter + " related apps");
 
                         // Hiccup (used to minimize blocking issues)
-                        Thread.Sleep (300);
+                        Thread.Sleep (2000);
                     }
                 }
                 catch (Exception ex)
                 {
-                    LogWriter.Error (ex);
+                    logger.Error (ex);
                 }
                 finally
                 {
@@ -188,7 +242,7 @@ namespace PlayStoreWorker
                     {
                         // Toggle Busy App may raise an exception in case of lack of internet connection, so, i must use this
                         // "inner catch" to avoid it from happenning
-                        LogWriter.Error (ex);
+                        logger.Error (ex);
                     }
                 }
             }

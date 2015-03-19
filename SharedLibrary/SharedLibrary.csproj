@@ -67,10 +67,15 @@
     <Compile Include="MongoDB\MongoDBWrapper.cs" />
     <Compile Include="PlayStoreParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proxies\ProxiesLoader.cs" />
+    <Compile Include="Proxies\ProxyInfo.cs" />
     <Compile Include="Reviews\ReviewsWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Proxies\ProxiesList.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

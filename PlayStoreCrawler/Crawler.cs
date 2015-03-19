@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using BDC.BDCCommons;
 using SharedLibrary;
 using SharedLibrary.MongoDB;
 using WebUtilsLib;
 using System.Text.RegularExpressions;
 using System.Threading;
+using NLog;
 
 namespace PlayStoreCrawler
 {
@@ -89,6 +89,9 @@ namespace PlayStoreCrawler
             // Console Feedback
             Console.WriteLine ("Crawling Search Term : [ " + searchField + " ]");
 
+            // Configuring Log Object
+            Logger logger = LogManager.GetCurrentClassLogger ();
+
             // Compiling Regular Expression used to parse the "pagToken" out of the Play Store
             Regex pagTokenRegex = new Regex (@"GAEi+.+\:S\:.{11}\\42", RegexOptions.Compiled);
 
@@ -164,7 +167,7 @@ namespace PlayStoreCrawler
                     // Checking Server Status
                     if (server.StatusCode != System.Net.HttpStatusCode.OK)
                     {
-                        LogWriter.Error ("Http Error", "Status Code [ " + server.StatusCode + " ]");
+                        logger.Error ("Http Error", "Status Code [ " + server.StatusCode + " ]");
                         errorsCount++;
                         continue;
                     }

@@ -16,6 +16,7 @@ namespace SharedLibrary
         public static readonly string REFERER            = "https://play.google.com/store/apps";
         public static readonly string INITIAL_POST_DATA  = "ipf=1&xhr=1";
         public static readonly string PLAY_STORE_PREFIX  = "https://play.google.com/store/apps/details?id=";
+        public static readonly string GITHUBURL          = "Google Play Crawler - [https://github.com/MarcelloLins/GooglePlayAppsCrawler]";
         
         // Old Post Data - To Allow Rolling Back if Needed
         // public static readonly string POST_DATA          = "start={0}&num=48&numChildren=0&ipf=1&xhr=1";
@@ -76,7 +77,7 @@ namespace SharedLibrary
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
         public static readonly string MONGO_DATABASE         = "PlayStore";
-        public static readonly string MONGO_COLLECTION       = "ProcessedApps_2015_02";
+        public static readonly string MONGO_COLLECTION       = "ProcessedApps_2015_03";
         public static readonly string REVIEWS_COLLECTION     = "ProcessedReviews";
         public static readonly string QUEUED_APPS_COLLECTION = "QueuedApps_2015";
         public static readonly string REVIEWERS_COLLECTION   = "ReviewersData";

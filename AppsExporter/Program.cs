@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using BDC.BDCCommons;
 using SharedLibrary;
 using SharedLibrary.MongoDB;
 using System.IO;
@@ -10,6 +9,7 @@ using System.Text;
 using System.Threading;
 using SharedLibrary.Models;
 using MongoDB.Driver.Builders;
+using NLog;
 
 namespace AppsExporter
 {
@@ -34,33 +34,31 @@ namespace AppsExporter
             // Logs Counter
             int processedApps = 0;
 
-            // Configuring Log Object Threshold
-            LogWriter.Threshold = TLogEventLevel.Information;
-            
-            // Overriding LogWriter Event
-            LogWriter.LogEvent += LogWriter_LogEvent;
-            
-            LogWriter.Info("Checking Arguments");
+            // Configuring Log Object
+            Logger logger = LogManager.GetCurrentClassLogger ();
+            logger.Info ("Worker Started");
+
+            logger.Info ("Checking Arguments");
             
             // Periodic Log Timer
             Timer loggingThread = new Timer((TimerCallback) =>
             {
-                LogWriter.Info ("Processed Apps: " + processedApps);
+                logger.Info ("Processed Apps: " + processedApps);
 
             }, null, 10000, 10000);
             
             // Validating Arguments
             if (!ValidateArgs (args))
             {
-                LogWriter.Fatal ("Invalid Args", "Args must have 1 element");
+                logger.Fatal ("Invalid Args", "Args must have 1 element");
                 return;
             }
 
-            LogWriter.Info("Checking Write Permissions on output Path");
+            logger.Info ("Checking Write Permissions on output Path");
             // Validating Write Permissions on output path
             if (!ValidateFilePermissions (args[0]))
             {
-                LogWriter.Fatal("Insuficient Permissions", "Cannot write on path : " + args[0]);
+                logger.Fatal ("Insuficient Permissions", "Cannot write on path : " + args[0]);
                 return;
             }
 
@@ -103,21 +101,13 @@ namespace AppsExporter
                     }
                     catch (Exception ex)
                     {
-                        LogWriter.Error (ex);
+                        logger.Error (ex);
                     }
                 }
             }
 
             // Logging end of the Process
-            LogWriter.Info ("Finished Exporting Database");
-
-            // Removing Event
-            LogWriter.LogEvent -= LogWriter_LogEvent;
-        }
-
-        static void LogWriter_LogEvent (TLogMessage msg)
-        {
-            Console.WriteLine (msg.EVT_MESSAGE);
+            logger.Info ("Finished Exporting Database");
         }
 
         private static bool ValidateArgs (string[] args)

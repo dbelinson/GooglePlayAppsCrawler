@@ -1,6 +1,6 @@
-﻿using BDC.BDCCommons;
-using MongoDB.Driver.Builders;
+﻿using MongoDB.Driver.Builders;
 using Newtonsoft.Json;
+using NLog;
 using SharedLibrary;
 using SharedLibrary.Models;
 using SharedLibrary.MongoDB;
@@ -32,20 +32,19 @@ namespace ReviewsParser
 
         static void Main (string[] args)
         {
-            // Configuring Log Object Threshold
-            LogWriter.Threshold = TLogEventLevel.Information;
-            LogWriter.LogEvent  += LogWriter_LogEvent;
+            // Configuring Log Object
+            Logger logger = LogManager.GetCurrentClassLogger ();
 
             // Parsing Arguments
-            LogWriter.Info ("Checking for Arguments");
+            logger.Info ("Checking for Arguments");
 
             if (args == null || args.Length != 3)
             {
-                LogWriter.Fatal ("Arguments Fatal", "Incorrect number of arguments received. Try passing two.");
+                logger.Fatal ("Arguments Fatal", "Incorrect number of arguments received. Try passing two.");
                 return; // Halts.
             }
 
-            LogWriter.Info ("Reading Arguments");
+            logger.Info ("Reading Arguments");
 
             // Reading actual arguments received
             _arguments.Add ("AppsToProcess", Int32.Parse (args[0]));
@@ -57,14 +56,14 @@ namespace ReviewsParser
             //var mongoQuery = Query.EQ ("Instalations", "1,000,000 - 5,000,000");
             var mongoQuery = Query.EQ ("Category", "/store/apps/category/EDUCATION");
 
-            LogWriter.Info ("Configuring MonboDB Client");
+            logger.Info ("Configuring MonboDB Client");
 
             // Creating instance of Mongo Handler for the main collection
             MongoDBWrapper mongoClient = new MongoDBWrapper ();
             string fullServerAddress = String.Join (":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
             mongoClient.ConfigureDatabase (Consts.MONGO_USER, Consts.MONGO_PASS, Consts.MONGO_AUTH_DB, fullServerAddress, Consts.MONGO_TIMEOUT, Consts.MONGO_DATABASE, Consts.MONGO_COLLECTION);
 
-            LogWriter.Info ("Iterating over Apps");
+            logger.Info ("Iterating over Apps");
 
             // Creating Play Store Parser
             PlayStoreParser parser = new PlayStoreParser ();
@@ -76,7 +75,7 @@ namespace ReviewsParser
                 string appId = appRecord.Url.Replace(Consts.PLAY_STORE_PREFIX, String.Empty);
 
                 // Console Feedback
-                LogWriter.Info("Processing App [ " + appRecord.Name + " ] ");
+                logger.Info ("Processing App [ " + appRecord.Name + " ] ");
 
                 bool shouldSkipApp = false;
 
@@ -90,7 +89,7 @@ namespace ReviewsParser
                     try
                     {
                         // Page Feedback
-                        LogWriter.Info("\tCurrent Page: " + currentPage);
+                        logger.Info ("\tCurrent Page: " + currentPage);
 
                         // Issuing Request for Reviews
                         string response = ReviewsWrapper.GetAppReviews (appId, currentPage);
@@ -98,7 +97,7 @@ namespace ReviewsParser
                         // Checking for Blocking Situation
                         if (String.IsNullOrEmpty(response))
                         {
-                            LogWriter.Info("Blocked by Play Store. Sleeping process for 10 minutes before retrying.");
+                            logger.Info ("Blocked by Play Store. Sleeping process for 10 minutes before retrying.");
 
                             // Thread Wait for 10 Minutes
                             Thread.Sleep(10 * 60 * 1000);
@@ -107,7 +106,7 @@ namespace ReviewsParser
                         // Checking for "No Reviews" app
                         if (response.Length < 50)
                         {
-                            LogWriter.Info("No Reviews for this app. Skipping");
+                            logger.Info ("No Reviews for this app. Skipping");
                             break;
                         }
 
@@ -136,7 +135,7 @@ namespace ReviewsParser
                             }
                             else
                             {
-                                LogWriter.Info("Duplicated Review", "Review already parsed. Skipping App");
+                                logger.Info ("Duplicated Review", "Review already parsed. Skipping App");
                                 //shouldSkipApp = true;
                                 //break;
                             }
@@ -144,16 +143,10 @@ namespace ReviewsParser
                     }
                     catch (Exception ex)
                     {
-                        LogWriter.Error(ex);
+                        logger.Error (ex);
                     }
                 }
             }
-        }
-
-        // Redirects the Logging Events to the console instead of an log file
-        static void LogWriter_LogEvent (TLogMessage msg)
-        {
-            Console.WriteLine(msg.EVT_MESSAGE);
         }
     }
 }
