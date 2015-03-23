@@ -50,6 +50,8 @@ The main idea of this project is to gather/mine data about apps of the Google Pl
 
 There are many questions we have no answer at the moment and we should be able to answer than with this database.
 
+Here's a <a href="https://s3.amazonaws.com/GooglePlayStore/Google%20Play%20Stats_2015_02.xlsx">simple excel dashboard</a> of data from "2015/02" with some of the answers that we can come up with. 
+
 # What do i need before i start?
 
 * I highly recommend you read all the pages of this wiki, which won`t take long.

@@ -224,7 +224,7 @@ namespace PlayStoreWorker
                         Console.WriteLine ("Queued " + newExtraApps + " / " + extraAppsCounter + " related apps");
 
                         // Hiccup (used to minimize blocking issues)
-                        Thread.Sleep (2000);
+                        //Thread.Sleep (2000);
                     }
                 }
                 catch (Exception ex)
