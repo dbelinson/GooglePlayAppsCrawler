@@ -76,12 +76,12 @@ namespace SharedLibrary
         public static readonly string MONGO_PORT             = "21766";
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
-        public static readonly string MONGO_DATABASE         = "PlayStore";
+        public static readonly string MONGO_DATABASE         = "MobileAppsData";
         public static readonly string MONGO_COLLECTION       = "ProcessedApps_2015_03";
         public static readonly string REVIEWS_COLLECTION     = "ProcessedReviews";
         public static readonly string QUEUED_APPS_COLLECTION = "QueuedApps_2015";
         public static readonly string REVIEWERS_COLLECTION   = "ReviewersData";
-        public static readonly string MONGO_AUTH_DB          = "PlayStore";
+        public static readonly string MONGO_AUTH_DB          = "MobileAppsData";
         public static readonly int    MONGO_TIMEOUT          = 120000;
 
         // Date Time Format
