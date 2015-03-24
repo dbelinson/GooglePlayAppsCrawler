@@ -3,20 +3,22 @@ Important Updates:
 
 **Update: Huge Milestone for a home project. The database already have 1.1 Million apps.** 
 
-**Update 2: By popular demand i have just released an Apple Store Crawler aswell. I hope you like it !**
+**Update 2: Added Analytics Features - Powered by Keen.IO**
 
-**Update 3: Added Analytics Features - Powered by Keen.IO**
+**Update 3: Updated database is up (January 2015) - Including emails, developer sites and physical addresses**
 
-**Update 4: Updated database is up (January 2015) - Including emails, developer sites and physical addresses**
-
-**Update 5: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations).**
+**Update 4: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations).**
 
 New: Donate-Button
 ======================
 
 <a href='https://pledgie.com/campaigns/28270'><img alt='Click here to lend your support to: Google Play Store in Numbers - Open Source Crawler and make a donation at pledgie.com !' src='https://pledgie.com/campaigns/28270.png?skin_name=chrome' border='0' ></a>
 
-Every 100 USD received in donations, I will run a new full-capture of the Play Store and update both the live and the exported versions of the database. Make it happen !
+Every 100 USD received in donations, I will run a new full-capture of the Play Store and update both the live and the exported versions of the database. 
+
+The costs related to this project range from Virtual Machines costs, paid HTTP-Proxies and storage.
+
+Make it happen !
 
 GooglePlayStoreCrawler
 ======================
@@ -54,7 +56,7 @@ Here's a <a href="https://s3.amazonaws.com/GooglePlayStore/Google%20Play%20Stats
 
 # What do i need before i start?
 
-* I highly recommend you read all the pages of this wiki, which won`t take long.
+* I highly recommend you read all the pages of this wiki, which won't take long.
 
 * Know C#
 
