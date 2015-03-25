@@ -74,8 +74,8 @@ namespace AppsExporter
                 sWriter.AutoFlush = true;
 
                 // Writing Headers
-                String headersLine = "_id,Url,ReferenceDate,Name,Developer,IsTopDeveloper,DeveloperURL,PublicationDate,"
-                                   + "Category,IsFree,Price,Reviewers,CoverImgUrl,Description,Score.Total,Score.Count,Score.FiveStars,"
+                String headersLine = "Url,ReferenceDate,Name,Developer,IsTopDeveloper,DeveloperURL,PublicationDate,"
+                                   + "Category,IsFree,Price,Reviewers,Score.Total,Score.Count,Score.FiveStars,"
                                    + "Score.FourStars,Score.ThreeStars,Score.TwoStars,Score.OneStars,LastUpdateDate"
                                    + "AppSize,Instalations,CurrentVersion,MinimumOSVersion,ContentRating,HaveInAppPurchases,DeveloperEmail,DeveloperWebsite,DeveloperPrivacyPolicy";
 
@@ -83,7 +83,8 @@ namespace AppsExporter
 
                 // Example of MongoDB Query Construction
                 // Queries for records which have the attribute "IsTopDeveloper" equal to "false"
-                var mongoQuery = Query.EQ ("IsTopDeveloper", false);
+                //var mongoQuery = Query.EQ ("IsTopDeveloper", false);
+                var mongoQuery = Query.EQ ("Category", "/store/apps/category/SPORTS");
 
                 // More Examples of Queries
                 // var mongoQuery = Query.EQ ("Category", "/store/apps/category/GAME_CASINO");

@@ -42,20 +42,17 @@ namespace SharedLibrary.Models
         {
             // Serializing Object as CSV
             return String.Join (",", 
-                                ("\"" + _id                    + "\""),
                                 ("\"" + Url                    + "\""),
-                                ("\"" + ReferenceDate.ToString ("yyyy-MM-dd") + "\""), 
-                                ("\"" + Name                   + "\""),
-                                ("\"" + Developer              + "\""),
+                                ("\"" + ReferenceDate.ToString ("yyyy-MM-dd").Replace (",","") + "\""),
+                                ("\"" + Name.Replace (",", "") + "\""),
+                                ("\"" + Developer.Replace (",", "") + "\""),
                                 ("\"" + IsTopDeveloper         + "\""),
-                                ("\"" + DeveloperURL           + "\""),
-                                ("\"" + PublicationDate.ToString ("yyyy-MM-dd") + "\""),
-                                ("\"" + Category               + "\""),
+                                ("\"" + DeveloperURL.Replace (",", "") + "\""),
+                                ("\"" + PublicationDate.ToString ("yyyy-MM-dd").Replace (",", "") + "\""),
+                                ("\"" + Category.Replace (",", "") + "\""),
                                 ("\"" + IsFree                 + "\""),
                                 ("\"" + Price                  + "\""), 
                                 ("\"" + Reviewers              + "\""),
-                                ("\"" + CoverImgUrl            + "\""),
-                                ("\"" + Description            + "\""),
                                 ("\"" + Score.Total            + "\""), 
                                 ("\"" + Score.Count            + "\""), 
                                 ("\"" + Score.FiveStars        + "\""),
@@ -65,14 +62,14 @@ namespace SharedLibrary.Models
                                 ("\"" + Score.OneStars         + "\""),
                                 ("\"" + LastUpdateDate.ToString ("yyyy-MM-dd") + "\""),
                                 ("\"" + AppSize                + "\""),
-                                ("\"" + Instalations           + "\""),
-                                ("\"" + CurrentVersion         + "\""),
-                                ("\"" + MinimumOSVersion       + "\""),
-                                ("\"" + ContentRating          + "\""),
+                                ("\"" + Instalations.Replace (",", ".") + "\""),
+                                ("\"" + CurrentVersion.Replace (",", "") + "\""),
+                                ("\"" + MinimumOSVersion.Replace (",", "") + "\""),
+                                ("\"" + ContentRating.Replace (",", "") + "\""),
                                 ("\"" + HaveInAppPurchases     +"\""),
-                                ("\"" + DeveloperEmail         + "\""),
-                                ("\"" + DeveloperWebsite       +"\""),
-                                ("\"" + DeveloperPrivacyPolicy + "\""));
+                                ("\"" + DeveloperEmail.Replace (",", "") + "\""),
+                                ("\"" + DeveloperWebsite.Replace (",", "") + "\""),
+                                ("\"" + DeveloperPrivacyPolicy.Replace (",", "") + "\""));
         }
     }
 
