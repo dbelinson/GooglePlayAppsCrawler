@@ -139,12 +139,9 @@ namespace PlayStoreWorker
 
                         // Checking for maximum retry count
                         double waitTime;
-                        if (retryCounter >= 7)
+                        if (retryCounter >= 6)
                         {
                             waitTime = TimeSpan.FromMinutes (35).TotalMilliseconds;
-
-                            // Removing App from the database (this the app page may have expired)
-                            mongoDB.RemoveFromQueue (app.Url);
 
                             Process.Start ("PlayStoreWorker.exe");
                             Process.GetCurrentProcess ().Kill ();

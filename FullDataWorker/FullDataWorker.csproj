@@ -48,14 +48,16 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Ude">
-      <HintPath>..\packages\UDE.CSharp.1.1.0\lib\Ude.dll</HintPath>
+    <Reference Include="Ude, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\StandAloneDlls\Ude.dll</HintPath>
     </Reference>
     <Reference Include="WebDriver">
       <HintPath>..\packages\Selenium.WebDriver.2.44.0\lib\net40\WebDriver.dll</HintPath>
     </Reference>
-    <Reference Include="WebUtilsLib">
-      <HintPath>..\packages\WebUtilsLib.1.0.5\lib\net45\WebUtilsLib.dll</HintPath>
+    <Reference Include="WebUtilsLib, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\StandAloneDlls\WebUtilsLib.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
