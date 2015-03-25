@@ -134,17 +134,12 @@ namespace PlayStoreWorker
 
                         // Inc. retry counter
                         retryCounter++;
-
-                        Console.WriteLine ("Retrying:" + retryCounter);
-
+                        
                         // Checking for maximum retry count
                         double waitTime;
                         if (retryCounter >= 6)
                         {
-                            waitTime = TimeSpan.FromMinutes (35).TotalMilliseconds;
-
-                            Process.Start ("PlayStoreWorker.exe");
-                            Process.GetCurrentProcess ().Kill ();
+                            waitTime = TimeSpan.FromMinutes (2).TotalMilliseconds;
                         }
                         else
                         {
@@ -153,7 +148,11 @@ namespace PlayStoreWorker
                         }
 
                         // Hiccup to avoid google blocking connections in case of heavy traffic from the same IP
+                        Console.WriteLine ("Fallback : " + waitTime + " Seconds");
                         Thread.Sleep (Convert.ToInt32 (waitTime));
+
+                        // If The Status code is "ZERO" (it means 404) - App must be removed from "Queue"
+                        mongoDB.RemoveFromQueue (app.Url);
                     }
                     else
                     {
@@ -165,14 +164,23 @@ namespace PlayStoreWorker
 
                         List<String> relatedApps = new List<String> ();
 
-                        // Parsing "Related Apps" and "More From Developer" Apps (URLS Only)
-                        foreach (string extraAppUrl in parser.ParseExtraApps (response))
+                        // Avoiding Exceptions caused by "No Related Apps" situations - Must be treated differently
+                        try
                         {
-                            relatedApps.Add (Consts.APP_URL_PREFIX + extraAppUrl);
-                        }
 
-                        // Adding "Related Apps" to Apps Model
-                        parsedApp.RelatedUrls = relatedApps.Distinct().ToArray ();
+                            // Parsing "Related Apps" and "More From Developer" Apps (URLS Only)
+                            foreach (string extraAppUrl in parser.ParseExtraApps (response))
+                            {
+                                relatedApps.Add (Consts.APP_URL_PREFIX + extraAppUrl);
+                            }
+
+                            // Adding "Related Apps" to Apps Model
+                            parsedApp.RelatedUrls = relatedApps.Distinct ().ToArray ();
+                        }
+                        catch
+                        {
+                            Console.WriteLine ("\tNo Related Apps Found. Skipping");
+                        }
 
                         // Inserting App into Mongo DB Database
                         if (!mongoDB.Insert<AppModel>(parsedApp))
