@@ -28,13 +28,13 @@ namespace PlayStoreWorker
             logger.Info ("Worker Started");
 
             // Control Variable (Bool - Should the process use proxies? )
-            bool useProxies = false;
+            bool isUsingProxies = false;
 
             // Checking for the need to use proxies
             if (args != null && args.Length == 1)
             {
                 // Setting flag to true
-                useProxies = true;
+                isUsingProxies = true;
 
                 // Loading proxies from .txt received as argument
                 String fPath = args[0];
@@ -112,7 +112,7 @@ namespace PlayStoreWorker
                     server.EncodingDetection = WebRequests.CharsetDetection.DefaultCharset;
 
                     // Checking for the need to use "HTTP Proxies"
-                    if (useProxies)
+                    if (isUsingProxies)
                     {
                         server.Proxy = ProxiesLoader.GetWebProxy ();
                     }
@@ -132,27 +132,47 @@ namespace PlayStoreWorker
                         // Renewing WebRequest Object to get rid of Cookies
                         server = new WebRequests ();
 
-                        // Inc. retry counter
-                        retryCounter++;
-                        
-                        // Checking for maximum retry count
+                        // Fallback time variable
                         double waitTime;
-                        if (retryCounter >= 6)
+
+                        // Checking which "Waiting Logic" to use - If there are proxies being used, there's no need to wait too much
+                        // If there are no proxies in use, on the other hand, the process must wait more time
+                        if (isUsingProxies)
                         {
-                            waitTime = TimeSpan.FromMinutes (2).TotalMilliseconds;
+                            // Waits two seconds everytime
+                            waitTime = TimeSpan.FromSeconds (2).TotalMilliseconds;
                         }
                         else
                         {
-                            // Calculating next wait time ( 2 ^ retryCounter seconds)
-                            waitTime = TimeSpan.FromSeconds (Math.Pow (2, retryCounter)).TotalMilliseconds;
+                            // Increments retry counter
+                            retryCounter++;
+
+                            // Checking for maximum retry count
+                            if (retryCounter >= 8)
+                            {
+                                waitTime = TimeSpan.FromMinutes (20).TotalMilliseconds;
+                            }
+                            else
+                            {
+                                // Calculating next wait time ( 2 ^ retryCounter seconds)
+                                waitTime = TimeSpan.FromSeconds (Math.Pow (2, retryCounter)).TotalMilliseconds;
+                            }
                         }
 
                         // Hiccup to avoid google blocking connections in case of heavy traffic from the same IP
-                        Console.WriteLine ("Fallback : " + waitTime + " Seconds");
+                        Console.WriteLine ("======================================================");
+                        Console.WriteLine ("\n\tFallback : " + waitTime + " Seconds");
                         Thread.Sleep (Convert.ToInt32 (waitTime));
 
                         // If The Status code is "ZERO" (it means 404) - App must be removed from "Queue"
-                        mongoDB.RemoveFromQueue (app.Url);
+                        if (server.StatusCode == 0)
+                        {
+                            // Console Feedback
+                            Console.WriteLine ("\tApp Not Found (404) - " + app.Url);
+
+                            mongoDB.RemoveFromQueue (app.Url);
+                        }
+                        Console.WriteLine ("======================================================");
                     }
                     else
                     {
@@ -197,7 +217,9 @@ namespace PlayStoreWorker
                         else // On the other hand, if processing worked, removes it from the database
                         {
                             // Console Feedback, Comment this line to disable if you want to
+                            Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Inserted App : " + parsedApp.Name);
+                            Console.ForegroundColor = ConsoleColor.White;
 
                             mongoDB.RemoveFromQueue(app.Url);
                         }
