@@ -44,7 +44,7 @@ namespace SharedLibrary.Models
             return String.Join (",", 
                                 ("\"" + Url                    + "\""),
                                 ("\"" + ReferenceDate.ToString ("yyyy-MM-dd").Replace (",","") + "\""),
-                                ("\"" + Name.Replace (",", "") + "\""),
+                                ("\"" + Name.Replace (",", "") + "\" "),
                                 ("\"" + Developer.Replace (",", "") + "\""),
                                 ("\"" + IsTopDeveloper         + "\""),
                                 ("\"" + DeveloperURL.Replace (",", "") + "\""),
