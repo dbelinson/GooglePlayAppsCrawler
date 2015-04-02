@@ -158,7 +158,7 @@ namespace SharedLibrary
             else
             {
                 double appPrice;
-                string normalizedPrice = currentNode.Attributes["content"].Value.Replace ("R$", String.Empty).Replace (",", "."); // Some countries use price as 5,20 instead of 5.20
+                string normalizedPrice = String.Join ("", currentNode.Attributes["content"].Value.Where (t => Char.IsDigit (t)));
 
                 if (Double.TryParse(normalizedPrice, out appPrice))
                 {
