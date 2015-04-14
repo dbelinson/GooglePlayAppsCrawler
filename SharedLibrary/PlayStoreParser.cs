@@ -382,6 +382,12 @@ namespace SharedLibrary
         {
             double parsedValue;
 
+            // Sanity check on "node"
+            if (node == null)
+            {
+                return 0.0;
+            }
+
             // Removing Dots from value to make it easier to parse its correct value
             string normalizedInnerText = node.InnerText.Replace (".", String.Empty);
 
