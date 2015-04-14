@@ -74,7 +74,7 @@ namespace SharedLibrary
         public static readonly string MONGO_USER             = "GitHubCrawlerUser";
         public static readonly string MONGO_PASS             = "g22LrJvULU5B";
         public static readonly string MONGO_DATABASE         = "MobileAppsData";
-        public static readonly string MONGO_COLLECTION       = "PlayStore_2015_03";
+        public static readonly string MONGO_COLLECTION       = "PlayStore_2015_04";
         public static readonly string REVIEWS_COLLECTION     = "ProcessedReviews";
         public static readonly string QUEUED_APPS_COLLECTION = "PlayStore_QueuedApps";
         public static readonly string REVIEWERS_COLLECTION   = "ReviewersData";
