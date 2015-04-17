@@ -100,13 +100,15 @@ namespace SharedLibrary
 
                     parsedApp.Category = catLinkSplit.Last ();
                 }
+                else
+                {
+                    parsedApp.Category = currentNode.Attributes["href"].Value;
+                }
             }
             else
             {
                 parsedApp.Category = "NO_CATEGORY_FOUND";
             }
-
-            parsedApp.Category   = currentNode == null? String.Empty : currentNode.Attributes["href"].Value;
 
             // Parsing App Developer/Author
             currentNode         = map.DocumentNode.SelectSingleNode (Consts.APP_DEV);
