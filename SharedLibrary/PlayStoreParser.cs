@@ -71,7 +71,7 @@ namespace SharedLibrary
 
             // Parsing App Name
             HtmlNode currentNode = map.DocumentNode.SelectSingleNode (Consts.APP_NAME);
-            parsedApp.Name       = currentNode == null ? String.Empty : currentNode.InnerText.Trim ();
+            parsedApp.Name       = currentNode == null ? String.Empty : HttpUtility.HtmlDecode (currentNode.InnerText.Trim ());
 
             // Parsing Cover Img Url
             currentNode           = map.DocumentNode.SelectSingleNode (Consts.APP_COVER_IMG);
@@ -196,7 +196,7 @@ namespace SharedLibrary
 
             // Parsing App Description
             currentNode           = map.DocumentNode.SelectSingleNode (Consts.APP_DESCRIPTION);
-            parsedApp.Description = currentNode == null ? String.Empty : currentNode.InnerText.Trim ();
+            parsedApp.Description = currentNode == null ? String.Empty : HttpUtility.HtmlDecode (currentNode.InnerText.Trim ());
 
             // Parsing App "What's new" section
             nodesCollection = map.DocumentNode.SelectNodes (Consts.WHATS_NEW);
@@ -204,7 +204,7 @@ namespace SharedLibrary
             // Sanity Check
             if (nodesCollection != null)
             {
-                parsedApp.WhatsNew = String.Join ("\n", nodesCollection.Select (t => t.InnerText).ToArray ());
+                parsedApp.WhatsNew = String.Join ("\n", nodesCollection.Select (t => HttpUtility.HtmlDecode (t.InnerText)).ToArray ());
             }
             
             // Checking for In app Purchases 

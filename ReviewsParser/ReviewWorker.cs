@@ -97,6 +97,9 @@ namespace ReviewsParser
                 
                 try
                 {
+                    // Console Feedback
+                    Console.Write ("Reviews from : " + appRecord.Name);
+
                     // Issuing Request for Reviews
                     string response = ReviewsWrapper.GetAppReviews (appId, 1, isUsingProxies);
 
@@ -113,6 +116,7 @@ namespace ReviewsParser
                     if (response.Length < 50)
                     {
                         logger.Info ("No Reviews for this app. Skipping");
+                        Console.Write (" - No Reviews Found\n");
                         continue;
                     }
 
@@ -140,6 +144,8 @@ namespace ReviewsParser
                     // Any Review Found ?
                     if (reviews.Count > 0)
                     {
+                        Console.Write (" - " + reviews.Count + " Reviews Found\n");
+
                         // Checking if there was any previous list of reviews
                         if (appRecord.Reviews == null)
                         {
@@ -160,6 +166,9 @@ namespace ReviewsParser
                 catch (Exception ex)
                 {
                     logger.Error (ex);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine ("Error : " + ex.Message);
+                    Console.ForegroundColor = ConsoleColor.White;
                     noError = false;
                 }
                 finally
