@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharedLibrary.Proxies;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,7 @@ namespace SharedLibrary.Reviews
 {
     public class ReviewsWrapper
     {
-        public static string GetAppReviews (string appID, int reviewsPage)
+        public static string GetAppReviews (string appID, int reviewsPage, bool isUsingProxies = false)
         {
             // Creating Instance of HTTP Requests Handler
             using (WebRequests httpClient = new WebRequests ())
@@ -24,6 +25,12 @@ namespace SharedLibrary.Reviews
                 httpClient.ContentType       = "application/x-www-form-urlencoded;charset=UTF-8";
                 httpClient.EncodingDetection = WebRequests.CharsetDetection.DefaultCharset;
                 httpClient.Headers.Add (Consts.ACCEPT_LANGUAGE);
+
+                // Checking for the need to use a Proxy on this request
+                if (isUsingProxies)
+                {
+                    httpClient.Proxy = ProxiesLoader.GetWebProxy ();
+                }
 
                 // Assembling Post Data
                 string postData = String.Format (Consts.REVIEWS_POST_DATA, reviewsPage, appID);

@@ -83,7 +83,6 @@ namespace PlayStoreWorker
             {
                 try
                 {
-
                     // Building APP URL
                     string appUrl = app.Url;
 
@@ -97,7 +96,7 @@ namespace PlayStoreWorker
                     if (mongoDB.AppProcessed (appUrl))
                     {
                         // Console Feedback, Comment this line to disable if you want to
-                        Console.WriteLine("Duplicated App, skipped.");
+                        Console.WriteLine ("Duplicated App, skipped.");
 
                         // Delete it from the queue and continues the loop
                         mongoDB.RemoveFromQueue (app.Url);
@@ -180,7 +179,7 @@ namespace PlayStoreWorker
                         retryCounter = 0;
 
                         // Parsing Useful App Data
-                        AppModel parsedApp = parser.ParseAppPage (response, appUrl);
+                        AppModel parsedApp = parser.ParseAppPage (response, appUrl); 
 
                         List<String> relatedApps = new List<String> ();
 
@@ -263,7 +262,7 @@ namespace PlayStoreWorker
                     try
                     {
                         // Toggles Busy status back to false
-                        mongoDB.ToggleBusyApp(app, false);
+                        mongoDB.ToggleBusyApp (app, false);
                     }
                     catch (Exception ex)
                     {

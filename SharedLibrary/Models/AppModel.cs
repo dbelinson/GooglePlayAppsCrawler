@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using MongoDB.Bson;
+using System.Collections.Generic;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace SharedLibrary.Models
 {
@@ -19,6 +21,8 @@ namespace SharedLibrary.Models
         public string   Category               {get;set;}
         public bool     IsFree                 {get;set;}
         public double   Price                  {get;set;}
+        [BsonIgnoreIfNull]
+        public string   Currency               {get;set;}
         public double   Reviewers              {get;set;}
         public string   CoverImgUrl            {get;set;}
         public string[] Screenshots            {get;set;}
@@ -36,6 +40,17 @@ namespace SharedLibrary.Models
         public string   DeveloperWebsite       {get;set;}
         public string   DeveloperPrivacyPolicy {get;set;}
         public string   PhysicalAddress        {get;set;} 
+
+        // Reviews Related Attributes
+        public string   ReviewsStatus           {get;set;} 
+        public List<AppReview> Reviews          {get;set;} 
+
+        // Class Constructor
+        public AppModel ()
+        {
+            // Default value for Reviews Status
+            ReviewsStatus = "Unvisited";
+        }
 
         // Override of the ToString Method
         public string ToString()
@@ -61,7 +76,7 @@ namespace SharedLibrary.Models
                                 ("\"" + Score.TwoStars         + "\""),
                                 ("\"" + Score.OneStars         + "\""),
                                 ("\"" + LastUpdateDate.ToString ("yyyy-MM-dd") + "\""),
-                                ("\"" + AppSize                + "\""),
+                                //("\"" + AppSize                + "\""),
                                 ("\"" + Instalations.Replace (",", ".") + "\""),
                                 ("\"" + CurrentVersion.Replace (",", "") + "\""),
                                 ("\"" + MinimumOSVersion.Replace (",", "") + "\""),
@@ -69,18 +84,19 @@ namespace SharedLibrary.Models
                                 ("\"" + HaveInAppPurchases     +"\""),
                                 ("\"" + DeveloperEmail.Replace (",", "") + "\""),
                                 ("\"" + DeveloperWebsite.Replace (",", "") + "\""),
-                                ("\"" + DeveloperPrivacyPolicy.Replace (",", "") + "\""));
+                                ("\"" + DeveloperPrivacyPolicy.Replace (",", "") + "\""),
+                                ("\"" + Description.Replace (",", "") + "\""));
         }
     }
 
     public class Score
     {
-        public double Total      {get;set;}
-        public double Count      {get;set;}
-        public double FiveStars  {get;set;}
-        public double FourStars  {get;set;}
-        public double ThreeStars {get;set;}
-        public double TwoStars   {get;set;}
-        public double OneStars   {get;set;}
+        public double Total      { get; set; }
+        public double Count      { get; set; }
+        public double FiveStars  { get; set; }
+        public double FourStars  { get; set; }
+        public double ThreeStars { get; set; }
+        public double TwoStars   { get; set; }
+        public double OneStars   { get; set; }
     }
 }

@@ -76,6 +76,13 @@ namespace SharedLibrary.MongoDB
             return _database.GetCollection<AppModel> (collection).Update (mongoQuery, updateQuery).Ok;
         }
 
+        public void SaveRecord<T> (T record, string collection = "")
+        {
+            collection = String.IsNullOrEmpty (collection) ? _collectionName : collection;
+
+            _database.GetCollection<T> (collection).SafeSave<T> (record);
+        }
+
         /// <summary>
         /// Finds all the record of a certain collection, of a certain type T.
         /// </summary>
@@ -98,6 +105,12 @@ namespace SharedLibrary.MongoDB
            {
                return _database.GetCollection<T> (collectionName).Find (mongoQuery).SetFlags (QueryFlags.NoCursorTimeout).SetSkip (skip);
            }
+        }
+
+        public MongoCursor<T> FindMatch <T> (QueryDocument mongoQuery, string collectionName = "")
+        {
+            collectionName = String.IsNullOrEmpty (collectionName) ? _collectionName : collectionName;
+            return _database.GetCollection<T> (collectionName).Find (mongoQuery).SetFlags (QueryFlags.NoCursorTimeout);
         }
 
         public IEnumerable<String> FindPeopleUrls ()
@@ -196,6 +209,31 @@ namespace SharedLibrary.MongoDB
         }
 
         /// <summary>
+        /// Finds an app whose "ReviewStatus" is "Unvisited" and modifies it's status
+        /// to "Visiting" atomically so that no other worker will try to process it
+        /// on the same time
+        /// </summary>
+        /// <returns>Found app, if any</returns>
+        public AppModel FindAndModifyReviews ()
+        {
+            // Mongo Query
+            var mongoQuery      = Query.EQ ("ReviewsStatus", "Unvisited");
+            var updateStatement = Update.Set ("ReviewsStatus", "Visiting");
+
+            // Finding a Not Busy App, and updating its state to busy
+            var mongoResponse = _database.GetCollection<AppModel> (Consts.MONGO_COLLECTION).FindAndModify (mongoQuery, null, updateStatement, false);
+
+            // Checking for query error or no app found
+            if (mongoResponse == null || mongoResponse.Response == null)
+            {
+                return null;
+            }
+
+            // Returns the app
+            return BsonSerializer.Deserialize<AppModel> (mongoResponse.ModifiedDocument);
+        }
+
+        /// <summary>
         /// Toggles the status of the "IsBusy" attribute of the queued app
         /// </summary>
         /// <param name="app">App to be found in the collection</param>
@@ -208,6 +246,20 @@ namespace SharedLibrary.MongoDB
 
             _database.GetCollection<QueuedApp> (Consts.QUEUED_APPS_COLLECTION).Update (mongoQuery, updateStatement);
         }
+
+        /// <summary>
+        /// Toggles the status of the "ReviewsStatus" attribute of an app
+        /// </summary>
+        /// <param name="app">App to be found in the collection</param>
+        /// <param name="busyStatus">New ReviewStatus value</param>
+        //public void ToggleReviewStatus (AppModel app, ReviewStatus status)
+        //{
+        //    // Mongo Query
+        //    var mongoQuery      = Query.EQ ("Url", app.Url);
+        //    var updateStatement = Update.Set ("ReviewsStatus", status.ToString ());
+
+        //    _database.GetCollection<AppModel> (Consts.MONGO_COLLECTION).Update (mongoQuery, updateStatement);
+        //}
 
         /// <summary>
         /// Removes the received app from the collection

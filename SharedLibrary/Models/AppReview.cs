@@ -9,7 +9,6 @@ namespace SharedLibrary.Models
 {
     public class AppReview
     {
-        public ObjectId _id         { get; set; }
         public string   appName     { get; set; }
         public string   appID       { get; set; }
         public string   appURL      { get; set; }
@@ -21,5 +20,10 @@ namespace SharedLibrary.Models
         public string   reviewTitle { get; set; }
         public string   reviewBody  { get; set; }
         public DateTime timestamp   { get; set; }
+    }
+
+    public enum ReviewStatus
+    {
+        Unvisited, Visiting, Visited, Error
     }
 }

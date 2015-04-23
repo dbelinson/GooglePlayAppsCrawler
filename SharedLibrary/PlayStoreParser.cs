@@ -164,7 +164,15 @@ namespace SharedLibrary
 
                 if (Double.TryParse(normalizedPrice, out appPrice))
                 {
-                    parsedApp.Price = appPrice;
+                    parsedApp.Price    = appPrice;
+
+                    // Parsing Currency
+                    parsedApp.Currency = String.Join("", currentNode.Attributes["content"].Value.Where (t => (!Char.IsDigit (t) && !(t.Equals ('.') || t.Equals (',')))));
+
+                    if (parsedApp.Currency == "$")
+                    {
+                        parsedApp.Currency = "US$";
+                    }
                 }
                 else
                 {
@@ -459,7 +467,7 @@ namespace SharedLibrary
                     // Applying Star Ratings Logic (based on Width value)
                     string ratingWidth = reviewNode.SelectSingleNode (".//div[contains(@class,'current-rating')]").Attributes["style"].Value;
 
-                    int ratingWidthInt = Int32.Parse (ratingWidth.Replace ("%", String.Empty).Replace ("width:", String.Empty));
+                    int ratingWidthInt = Int32.Parse (String.Join ("", ratingWidth.Where (t => Char.IsDigit (t))));
 
                     // 20% Width = 1, 40% Width = 2 ... 100% Width = 5 stars
                     reviewInstance.starRatings = ratingWidthInt / 20;
