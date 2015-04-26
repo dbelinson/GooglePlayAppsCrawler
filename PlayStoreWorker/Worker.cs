@@ -11,6 +11,7 @@ using NLog;
 using System.IO;
 using SharedLibrary.Proxies;
 using System.Text;
+using SharedLibrary.Log;
 
 namespace PlayStoreWorker
 {
@@ -24,6 +25,7 @@ namespace PlayStoreWorker
         static void Main (string[] args)
         {
             // Configuring Log Object
+            LogSetup.InitializeLog ("PlayStoreWorker.log", "info");
             Logger logger = LogManager.GetCurrentClassLogger ();
             logger.Info ("Worker Started");
 
