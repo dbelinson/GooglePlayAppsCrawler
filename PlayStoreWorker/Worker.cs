@@ -96,7 +96,7 @@ namespace PlayStoreWorker
                     if (mongoDB.AppProcessed (appUrl))
                     {
                         // Console Feedback, Comment this line to disable if you want to
-                        Console.WriteLine ("Duplicated App, skipped.");
+                        logger.Info ("Duplicated App, skipped.");
 
                         // Delete it from the queue and continues the loop
                         mongoDB.RemoveFromQueue (app.Url);
@@ -159,19 +159,19 @@ namespace PlayStoreWorker
                         }
 
                         // Hiccup to avoid google blocking connections in case of heavy traffic from the same IP
-                        Console.WriteLine ("======================================================");
-                        Console.WriteLine ("\n\tFallback : " + waitTime + " Seconds");
+                        logger.Info ("======================================================");
+                        logger.Info ("\n\tFallback : " + waitTime + " Seconds");
                         Thread.Sleep (Convert.ToInt32 (waitTime));
 
                         // If The Status code is "ZERO" (it means 404) - App must be removed from "Queue"
                         if (server.StatusCode == 0)
                         {
                             // Console Feedback
-                            Console.WriteLine ("\tApp Not Found (404) - " + app.Url);
+                            logger.Info ("\tApp Not Found (404) - " + app.Url);
 
                             mongoDB.RemoveFromQueue (app.Url);
                         }
-                        Console.WriteLine ("======================================================");
+                        logger.Info ("======================================================");
                     }
                     else
                     {
@@ -198,7 +198,7 @@ namespace PlayStoreWorker
                         }
                         catch
                         {
-                            Console.WriteLine ("\tNo Related Apps Found. Skipping");
+                            logger.Info ("\tNo Related Apps Found. Skipping");
                         }
 
                         // Inserting App into Mongo DB Database
@@ -217,7 +217,7 @@ namespace PlayStoreWorker
                         {
                             // Console Feedback, Comment this line to disable if you want to
                             Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Inserted App : " + parsedApp.Name);
+                            logger.Info ("Inserted App : " + parsedApp.Name);
                             Console.ForegroundColor = ConsoleColor.White;
 
                             mongoDB.RemoveFromQueue(app.Url);
@@ -247,10 +247,7 @@ namespace PlayStoreWorker
                         }
 
                         // Console Feedback
-                        Console.WriteLine ("Queued " + newExtraApps + " / " + extraAppsCounter + " related apps");
-
-                        // Hiccup (used to minimize blocking issues)
-                        //Thread.Sleep (2000);
+                        logger.Info ("Queued " + newExtraApps + " / " + extraAppsCounter + " related apps");
                     }
                 }
                 catch (Exception ex)

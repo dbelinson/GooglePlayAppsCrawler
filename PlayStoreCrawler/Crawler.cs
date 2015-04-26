@@ -6,17 +6,24 @@ using WebUtilsLib;
 using System.Text.RegularExpressions;
 using System.Threading;
 using NLog;
+using SharedLibrary.Log;
 
 namespace PlayStoreCrawler
 {
     class Crawler
     {
+        private static Logger _logger;
+
         /// <summary>
-         /// Entry point of the crawler
-         /// </summary>
-         /// <param name="args"></param>
+        /// Entry point of the crawler
+        /// </summary>
+        /// <param name="args"></param>
         static void Main (string[] args)
         {
+            // Setting Up Log
+            LogSetup.InitializeLog ("PlayStoreCrawler.log", "info");
+            _logger = LogManager.GetCurrentClassLogger ();
+
             // Crawling App Store using all characters as the Search Input
             CrawlStore ("A");
             CrawlStore ("B");
@@ -338,10 +345,7 @@ namespace PlayStoreCrawler
         private static void CrawlStore (string searchField)
         {
             // Console Feedback
-            Console.WriteLine ("Crawling Search Term : [ " + searchField + " ]");
-
-            // Configuring Log Object
-            Logger logger = LogManager.GetCurrentClassLogger ();
+            _logger.Info ("Crawling Search Term : [ " + searchField + " ]");
 
             // Compiling Regular Expression used to parse the "pagToken" out of the Play Store
             Regex pagTokenRegex = new Regex (@"GAEi+.+\:S\:.{11}\\42", RegexOptions.Compiled);
@@ -378,7 +382,7 @@ namespace PlayStoreCrawler
                     if ((!mongoDB.AppProcessed (Consts.APP_URL_PREFIX + url)) && (!mongoDB.AppQueued (url)))
                     {
                         // Console Feedback
-                        Console.WriteLine (" . Queued App");
+                        _logger.Info ("Queued App");
 
                         // Than, queue it :)
                         mongoDB.AddToQueue (url);
@@ -387,7 +391,7 @@ namespace PlayStoreCrawler
                     else
                     {
                         // Console Feedback
-                        Console.WriteLine (" . Duplicated App. Skipped");
+                        _logger.Info ("Duplicated App. Skipped");
                     }
                 }
 
@@ -418,7 +422,7 @@ namespace PlayStoreCrawler
                     // Checking Server Status
                     if (server.StatusCode != System.Net.HttpStatusCode.OK)
                     {
-                        logger.Error ("Http Error", "Status Code [ " + server.StatusCode + " ]");
+                        _logger.Error ("Http Error" + " - Status Code [ " + server.StatusCode + " ]");
                         errorsCount++;
                         continue;
                     }
