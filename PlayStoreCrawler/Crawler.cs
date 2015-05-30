@@ -108,7 +108,7 @@ namespace PlayStoreCrawler
         private static void CrawlStore (string searchField, bool shouldUseProxies)
         {
             // Console Feedback
-            _logger.Info ("Crawling Search Term : [ " + searchField + " ]");
+            _logger.Warn ("Crawling Search Term : [ " + searchField + " ]");
 
             // Compiling Regular Expression used to parse the "pagToken" out of the Play Store
             Regex pagTokenRegex = new Regex (@"GAEi+.+\:S\:.{11}\\42", RegexOptions.Compiled);
@@ -153,17 +153,9 @@ namespace PlayStoreCrawler
                     // or is queued to be processed
                     if ((!mongoDB.AppProcessed (Consts.APP_URL_PREFIX + url)) && (!mongoDB.AppQueued (url)))
                     {
-                        // Console Feedback
-                        _logger.Info ("Queued App");
-
                         // Than, queue it :)
                         mongoDB.AddToQueue (url);
                         Thread.Sleep (250); // Hiccup
-                    }
-                    else
-                    {
-                        // Console Feedback
-                        _logger.Info ("Duplicated App. Skipped");
                     }
                 }
 
@@ -206,17 +198,9 @@ namespace PlayStoreCrawler
                         // or is queued to be processed
                         if ((!mongoDB.AppProcessed (Consts.APP_URL_PREFIX + url)) && (!mongoDB.AppQueued (url)))
                         {
-                            // Console Feedback
-                            Console.WriteLine (" . Queued App");
-
                             // Than, queue it :)
                             mongoDB.AddToQueue (url);
                             Thread.Sleep (250); // Hiccup
-                        }
-                        else
-                        {
-                            // Console Feedback
-                            Console.WriteLine (" . Duplicated App. Skipped");
                         }
                     }
 
@@ -234,7 +218,7 @@ namespace PlayStoreCrawler
         private static void CrawlCategory (string categoryUrl, string categoryName, bool shouldUseProxies)
         {
             // Console Feedback
-            _logger.Info ("Crawling Category : [ " + categoryName + " ]");
+            _logger.Warn ("Crawling Category : [ " + categoryName + " ]");
 
             // Hashset of urls used to keep track of what's been parsed already
             HashSet<String> foundUrls = new HashSet<String> ();
@@ -279,16 +263,8 @@ namespace PlayStoreCrawler
                     // or is queued to be processed
                     if ((!mongoDB.AppProcessed (Consts.APP_URL_PREFIX + url)) && (!mongoDB.AppQueued (url)))
                     {
-                        // Console Feedback
-                        _logger.Info ("Queued App - " + url);
-
                         // Than, queue it :)
                         mongoDB.AddToQueue (url);
-                    }
-                    else
-                    {
-                        // Console Feedback
-                        _logger.Info ("Duplicated App. Skipped - " + url);
                     }
                 }
 
@@ -330,16 +306,8 @@ namespace PlayStoreCrawler
                         // or is queued to be processed
                         if ((!mongoDB.AppProcessed (Consts.APP_URL_PREFIX + url)) && (!mongoDB.AppQueued (url)))
                         {
-                            // Console Feedback
-                            _logger.Info ("Queued App - " + url);
-
                             // Than, queue it :)
                             mongoDB.AddToQueue (url);
-                        }
-                        else
-                        {
-                            // Console Feedback
-                            _logger.Info ("Duplicated App. Skipped - " + url);
                         }
                     }
 
