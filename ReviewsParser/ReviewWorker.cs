@@ -36,6 +36,8 @@ namespace ReviewsParser
             // Control Variable (Bool - Should the process use proxies? )
             bool isUsingProxies = false;
 
+            logger.Info ("Checking proxies configuration");
+
             // Checking for the need to use proxies
             if (args != null && args.Length == 1)
             {
@@ -53,6 +55,7 @@ namespace ReviewsParser
                 }
 
                 // Reading Proxies from File
+                logger.Info ("Loading Proxies");
                 string[] fLines = File.ReadAllLines (fPath, Encoding.GetEncoding ("UTF-8"));
 
                 try

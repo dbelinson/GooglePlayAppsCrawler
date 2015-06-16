@@ -1,11 +1,11 @@
 Important Updates:
 ---------------------------------------------------------------------------
 
-**Update: Huge Milestone for a home project. The database already have 1.1 Million apps.** 
+**Update: Huge Milestone for a home project. The database already have 1.3 Million apps.** 
 
 **Update 2: Added Analytics Features - Powered by Keen.IO**
 
-**Update 3: Updated database is up (January 2015) - Including emails, developer sites and physical addresses**
+**Update 3: Updated database is up (June 2015) - Including emails, developer sites and physical addresses**
 
 **Update 4: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations).**
 
