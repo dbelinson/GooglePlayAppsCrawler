@@ -184,8 +184,15 @@ namespace PlayStoreWorker
                         AppModel parsedApp = parser.ParseAppPage (response, appUrl); 
 
                         // Normalizing URLs
-                        parsedApp.DeveloperPrivacyPolicy    = parsedApp.DeveloperPrivacyPolicy.Replace ("https://www.google.com/url?q=", String.Empty);
-                        parsedApp.DeveloperNormalizedDomain = parser.NormalizeDomainName (parsedApp.DeveloperWebsite);
+                        if (!String.IsNullOrWhiteSpace (parsedApp.DeveloperPrivacyPolicy))
+                        {
+                            parsedApp.DeveloperPrivacyPolicy = parsedApp.DeveloperPrivacyPolicy.Replace ("https://www.google.com/url?q=", String.Empty);
+                        }
+
+                        if (!String.IsNullOrWhiteSpace (parsedApp.DeveloperWebsite))
+                        {
+                            parsedApp.DeveloperNormalizedDomain = parser.NormalizeDomainName (parsedApp.DeveloperWebsite);
+                        }
 
                         List<String> relatedApps = new List<String> ();
 
