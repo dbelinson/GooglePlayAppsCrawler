@@ -535,5 +535,36 @@ namespace SharedLibrary
 
             return reviewerData;
         }
+
+        public string NormalizeDomainName (string originalAddress)
+        {
+            if (String.IsNullOrWhiteSpace(originalAddress))
+            {
+                return String.Empty;
+            }
+
+            originalAddress = originalAddress.Replace ("https://www.google.com/url?q=", String.Empty);
+
+            // Cleanup the site address
+            string stringValue = originalAddress.ToLowerInvariant ().Trim ();
+            stringValue = stringValue.Replace ("www.", "").Replace ("https://", "").Replace ("http://", "").Replace ("//", "").Replace (" ", "");
+
+            if (stringValue.IndexOf ("?") >= 0)
+            {
+                stringValue = stringValue.Substring (0, stringValue.IndexOf ("?"));
+            }
+
+            if (stringValue.IndexOf ("/") >= 0)
+            {
+                stringValue = stringValue.Substring (0, stringValue.IndexOf ("/"));
+            }
+
+            if (stringValue.IndexOf (".") < 0 && stringValue != "")
+            {
+                stringValue = stringValue + ".com.br";
+            }
+
+            return stringValue;
+        }
     }
 }

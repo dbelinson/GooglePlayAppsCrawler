@@ -17,6 +17,7 @@ namespace SharedLibrary.Models
         public string   Developer              {get;set;}
         public bool     IsTopDeveloper         {get;set;}
         public string   DeveloperURL           {get;set;}
+        public string   DeveloperNormalizedDomain {get;set;}
         public DateTime PublicationDate        {get;set;}
         public string   Category               {get;set;}
         public bool     IsFree                 {get;set;}

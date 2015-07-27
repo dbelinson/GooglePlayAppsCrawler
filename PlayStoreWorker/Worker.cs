@@ -183,6 +183,10 @@ namespace PlayStoreWorker
                         // Parsing Useful App Data
                         AppModel parsedApp = parser.ParseAppPage (response, appUrl); 
 
+                        // Normalizing URLs
+                        parsedApp.DeveloperPrivacyPolicy    = parsedApp.DeveloperPrivacyPolicy.Replace ("https://www.google.com/url?q=", String.Empty);
+                        parsedApp.DeveloperNormalizedDomain = parser.NormalizeDomainName (parsedApp.DeveloperWebsite);
+
                         List<String> relatedApps = new List<String> ();
 
                         // Avoiding Exceptions caused by "No Related Apps" situations - Must be treated differently
