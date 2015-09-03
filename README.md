@@ -1,13 +1,11 @@
-Important Updates:
----------------------------------------------------------------------------
+GooglePlayStoreCrawler
+======================
 
-**Update: Huge Milestone for a home project. The database already have 1.3 Million apps.** 
+Simple scalable crawler for Apps data from the Play Store.
 
-**Update 2: Added Analytics Features - Powered by Keen.IO**
+For you Pythonistas out there, here's the <a href="https://github.com/MarcelloLins/GooglePlayAppsCrawler.py">Python port of this project</a>
 
-**Update 3: Updated database is up (June 2015) - Including emails, developer sites and physical addresses**
-
-**Update 4: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations).**
+You don't have to input any of your Google Account credentials since this Crawler acts like a "Logged Out" user.
 
 New: Donate-Button
 ======================
@@ -20,14 +18,19 @@ The costs related to this project range from Virtual Machines costs, paid HTTP-P
 
 Make it happen !
 
-GooglePlayStoreCrawler
-======================
+Important Updates:
+---------------------------------------------------------------------------
 
-Simple scalable crawler for Apps data from the Play Store.
+**Update: Huge Milestone for a home project. The database already have 1.3 Million apps.** 
 
-You don't have to input any of your Google Account credentials since this Crawler acts like a "Logged Out" user.
+**Update 2: Added Analytics Features - Powered by Keen.IO**
+
+**Update 3: Updated database is up (June 2015) - Including emails, developer sites and physical addresses**
+
+**Update 4: During 2015/02, I ended up having to pay for 170 GB of outbound traffic on my AWS Bill (that translates to nearly 350 downloads of the file, from which I only received 2 donations).**
 
 # Exporting the Database
+
 As people kept requesting me, i decided to export the database on it's current state.
 I you want the exported file, get in touch with me at : marcello.grechi@gmail.com, and I will send you the file. (I decided not to keep the file public, because there were people downloading the same file 
 over and over again, and not paying for it, which led to a huge AWS bill that I had to pay).

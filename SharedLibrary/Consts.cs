@@ -50,7 +50,7 @@ namespace SharedLibrary
         public static readonly string APP_UPDATE_DATE      = "//div[@class='meta-info']/div[@itemprop='datePublished']";
         public static readonly string APP_SIZE             = "//div[@class='meta-info']/div[@itemprop='fileSize']";
         public static readonly string APP_VERSION          = "//div[@class='content' and @itemprop='softwareVersion']";
-        public static readonly string APP_INSTALLS         = "//div[@class='content' and @itemprop='numDownloads']";
+        public static readonly string APP_INSTALLS         = "//div[@class='content' and @itemprop='numDownloads'];";
         public static readonly string APP_CONTENT_RATING   = "//div[@class='content' and @itemprop='contentRating']";
         public static readonly string APP_OS_REQUIRED      = "//div[@class='content' and @itemprop='operatingSystems']";
         public static readonly string EXTRA_APPS           = "//div[@class='card-content id-track-click id-track-impression']/a[@class='card-click-target']";
