@@ -24,6 +24,10 @@ namespace SharedLibrary.Proxies
             // Adding proxies from the file
             foreach (string proxyData in proxies)
             {
+
+				if (String.IsNullOrEmpty (proxyData))
+					continue;
+
                 // Splitting String for it's data
                 string[] proxyInfo = proxyData.Split (':');
 
