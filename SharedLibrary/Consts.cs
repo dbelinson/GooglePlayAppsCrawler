@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Configuration;
+using System.Collections.Specialized;
 
 namespace SharedLibrary
 {
@@ -61,25 +63,23 @@ namespace SharedLibrary
         public static readonly string WHATS_NEW            = "//div[@class='recent-change']";
 
         // HTML Values
-        public static readonly string NO_RESULT_MESSAGE = "Nenhum resultado para sua pesquisa"; // TODO: CHANGE THIS TO YOUR OWN LANGUAGE. 
-                                                                                                // THIS CONSTANT IS USED TO CHECK FOR "NO MORE APPS" WHEN YOU PAGINATE/SCROLL THROUGH
-                                                                                                // THE SEARCH RESULTS. THE PHRASE MEANS "NO RESULT FOR YOUR SEARCH"
+		public static string NO_RESULT_MESSAGE 		{ get { var lang = ConfigurationManager.GetSection("languageStrings") as NameValueCollection; return lang[lang["chosen-language"]]; } }
         
         // Retry Values
         public static readonly int MAX_REQUEST_ERRORS   = 100;
         public static readonly int MAX_QUEUE_TRIES      = 5;
         
         // MongoDB - Remote Server
-        public static readonly string MONGO_SERVER           = "mobiledata.bigdatacorp.com.br"; 
-        public static readonly string MONGO_PORT             = "21766";
-        public static readonly string MONGO_USER             = "GitHubCrawlerUser";
-        public static readonly string MONGO_PASS             = "g22LrJvULU5B";
-        public static readonly string MONGO_DATABASE         = "MobileAppsData";
-        public static readonly string MONGO_COLLECTION       = "PlayStore_2015_09";
-        public static readonly string REVIEWS_COLLECTION     = "ProcessedReviews";
-        public static readonly string QUEUED_APPS_COLLECTION = "PlayStore_QueuedApps_2015_09";
-        public static readonly string REVIEWERS_COLLECTION   = "ReviewersData";
-        public static readonly string MONGO_AUTH_DB          = "MobileAppsData";
+		public static string MONGO_SERVER           { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["server"]; } }
+		public static string MONGO_PORT             { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["port"]; } }
+		public static string MONGO_USER             { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["user"]; } }
+		public static string MONGO_PASS             { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["password"]; } }
+		public static string MONGO_DATABASE         { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["database"]; } }
+		public static string MONGO_COLLECTION       { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["apps-collection"]; } }
+		public static string REVIEWS_COLLECTION     { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["reviews-collection"]; } }
+		public static string QUEUED_APPS_COLLECTION { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["queued-apps-collection"]; } }
+		public static string REVIEWERS_COLLECTION   { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["reviewers-collection"]; } }
+		public static string MONGO_AUTH_DB          { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["auth-db"]; } }
         public static readonly int    MONGO_TIMEOUT          = 120000;
 
         // Date Time Format
