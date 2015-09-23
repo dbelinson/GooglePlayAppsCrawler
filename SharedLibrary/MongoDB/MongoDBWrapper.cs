@@ -224,8 +224,9 @@ namespace SharedLibrary.MongoDB
             var mongoResponse = _database.GetCollection<AppModel> (Consts.MONGO_COLLECTION).FindAndModify (mongoQuery, null, updateStatement, false);
 
             // Checking for query error or no app found
-            if (mongoResponse == null || mongoResponse.Response == null)
+			if (mongoResponse == null || mongoResponse.Response == null || mongoResponse.ModifiedDocument == null)
             {
+				Console.WriteLine ('No apps to process for reviews.');
                 return null;
             }
 
