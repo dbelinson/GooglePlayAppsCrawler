@@ -226,7 +226,7 @@ namespace SharedLibrary.MongoDB
             // Checking for query error or no app found
 			if (mongoResponse == null || mongoResponse.Response == null || mongoResponse.ModifiedDocument == null)
             {
-				Console.WriteLine ('No apps to process for reviews.');
+				Console.WriteLine ("No apps to process for reviews.");
                 return null;
             }
 
