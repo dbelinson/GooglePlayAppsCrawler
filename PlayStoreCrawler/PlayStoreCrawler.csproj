@@ -86,4 +86,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+  	<Copy SourceFiles="../mongo.config" DestinationFolder="$(OutputPath)" ContinueOnError="false" />
+  	<Copy SourceFiles="../language.config" DestinationFolder="$(OutputPath)" ContinueOnError="false" />
+  	<Copy SourceFiles="../proxies.txt" DestinationFolder="$(OutputPath)" ContinueOnError="true" />
+  </Target>
 </Project>
