@@ -129,6 +129,11 @@ namespace PlayStoreWorker
                     {
                         logger.Info ("Error opening app page : " + appUrl);
                         ProcessingWorked = false;
+
+						if(isUsingProxies)
+						{
+							ProxiesLoader.IncrementCurrentProxy ();
+						}
                         
                         // Renewing WebRequest Object to get rid of Cookies
                         server = new WebRequests ();
