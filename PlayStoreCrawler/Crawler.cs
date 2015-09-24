@@ -108,7 +108,13 @@ namespace PlayStoreCrawler
         private static void CrawlStore (string searchField, bool shouldUseProxies)
         {
             // Console Feedback
-            _logger.Warn ("Crawling Search Term : [ " + searchField + " ]");
+			_logger.Warn ("Crawling Search Term : [ " + searchField + " ]");
+
+			// Hashset of urls used to keep track of what's been parsed already
+			HashSet<String> foundUrls = new HashSet<String> ();
+
+			// Control variable to avoid "Loop" on pagging
+			bool isDonePagging = false;
 
             // Compiling Regular Expression used to parse the "pagToken" out of the Play Store
             Regex pagTokenRegex = new Regex (@"GAEi+.+\:S\:.{11}\\42", RegexOptions.Compiled);
@@ -150,7 +156,8 @@ namespace PlayStoreCrawler
                 foreach (string url in parser.ParseAppUrls (response))
                 {
                     // Checks whether the app have been already processed 
-                    // or is queued to be processed
+					// or is queued to be processed
+					foundUrls.Add (url);
                     if ((!mongoDB.AppProcessed (Consts.APP_URL_PREFIX + url)) && (!mongoDB.AppQueued (url)))
                     {
                         // Than, queue it :)
@@ -193,9 +200,14 @@ namespace PlayStoreCrawler
 
                     // Parsing Links
                     foreach (string url in parser.ParseAppUrls (response))
-                    {
+					{
+						if (foundUrls.Contains (url))
+						{
+							isDonePagging = true;
+							break;
+						}
                         // Checks whether the app have been already processed 
-                        // or is queued to be processed
+						foundUrls.Add (url);
                         if ((!mongoDB.AppProcessed (Consts.APP_URL_PREFIX + url)) && (!mongoDB.AppQueued (url)))
                         {
                             // Than, queue it :)
@@ -207,7 +219,7 @@ namespace PlayStoreCrawler
                     // Incrementing Paging Multiplier
                     currentMultiplier++;
 
-                }  while (parser.AnyResultFound (response) && errorsCount <= Consts.MAX_REQUEST_ERRORS);
+				}  while (!isDonePagging && parser.AnyResultFound (response) && errorsCount <= Consts.MAX_REQUEST_ERRORS);
             }
         }
 

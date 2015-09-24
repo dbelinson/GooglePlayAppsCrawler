@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Driver.Builders;
 
 namespace SharedLibrary.MongoDB
 {
@@ -213,7 +214,56 @@ namespace SharedLibrary.MongoDB
             while (++done < retryCount);
             // if we got here, the operation have failled
             return false;
-        }
+		}
+		/// <summary>
+		/// Upsert an item, retrying in case of connection errors..
+		/// </summary>
+		/// <typeparam name="T">The type of the item.</typeparam>
+		/// <param name="col">The collection.</param>
+		/// <param name="item">The item.</param>
+		/// <param name="statement">The query statement to search on.</param> 
+		/// <param name="retryCount">The retry count in case of connection errors.</param>
+		/// <param name="throwOnError">Throws an exception on error.</param>
+		/// <returns></returns>
+		public static bool SafeUpsert<T> (this MongoCollection col, T item, IMongoQuery statement, int retryCount = 2, bool throwOnError = false)
+		{
+			int done = 0;
+			// try to update/insert and 
+			// retry n times in case of connection errors            
+			do
+			{
+				try
+				{
+					if (col.Update (statement, Update.Replace(item), UpdateFlags.Upsert).Ok)
+					{
+						return true;
+					}
+				}
+				catch (System.IO.IOException ex)
+				{
+					// retry limit
+					if (throwOnError && done > (retryCount - 1))
+						throw;
+				}
+				catch (WriteConcernException wcEx)
+				{
+					// duplicate id exception (no use to retry)
+					if (wcEx.CommandResult != null && (wcEx.CommandResult.Code ?? 0) == 11000)
+					{
+						if (throwOnError)
+							throw;
+						else
+							return false;
+					}
+					// retry limit
+					if (throwOnError && done > (retryCount - 1))
+						throw;
+				}
+			}
+			while (++done < retryCount);
+			// if we got here, the operation have failled
+			return false;
+		}
 
         /// <summary>
         /// Update or insert an item, retrying in case of connection errors.
