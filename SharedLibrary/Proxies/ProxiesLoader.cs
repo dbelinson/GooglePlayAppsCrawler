@@ -73,6 +73,7 @@ namespace SharedLibrary.Proxies
 			if (pInfo.retries > 10) 
 			{
 				_loadedProxies.Remove (pInfo);
+				Console.WriteLine (String.Format ("Removing bad proxy {0}:{1}", pInfo.ip, pInfo.port));
 			}
 		}	
 
