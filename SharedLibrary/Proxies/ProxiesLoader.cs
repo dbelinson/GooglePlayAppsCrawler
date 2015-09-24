@@ -65,6 +65,17 @@ namespace SharedLibrary.Proxies
             }
         }
 
+		public static void IncrementUses (ProxyInfo pInfo)
+		{
+			pInfo.retries++;
+
+			// remove failed proxies after a gratuitous attempt threshold
+			if (pInfo.retries > 10) 
+			{
+				_loadedProxies.Remove (pInfo);
+			}
+		}	
+
         /// <summary>
         /// Clears the current list of proxies
         /// </summary>
@@ -86,5 +97,11 @@ namespace SharedLibrary.Proxies
             // Returning new instance of Web Proxy to be used
             return _loadedProxies[proxyIndex].AsWebProxy ();
         }
+
+		public static void IncrementCurrentProxy ()
+		{
+			int proxyIndex = (_currentProxy % _loadedProxies.Count);
+			IncrementUses (_loadedProxies [proxyIndex]);
+		}
     }
 }

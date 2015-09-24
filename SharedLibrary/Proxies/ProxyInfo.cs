@@ -15,6 +15,7 @@ namespace SharedLibrary.Proxies
         public string port { get; set; }
         public string psw  { get; set; }
         public string user { get; set; }
+		public int retries { get; set; }
 
         #endregion
 
