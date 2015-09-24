@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MongoDB.Bson;
 
 namespace SharedLibrary.MongoDB
 {
@@ -55,7 +56,20 @@ namespace SharedLibrary.MongoDB
             collection = String.IsNullOrEmpty (collection) ? _collectionName : collection;
 
             return _database.GetCollection<T> (collection).SafeInsert (record);
-        }
+		}
+
+		/// <summary>
+		/// Upserts an element to the MongoDB.
+		/// The type T must match the type of the target collection
+		/// </summary>
+		/// <typeparam name="T">Type of the object to be inserted</typeparam>
+		/// <param name="record">Record that will be inserted in the database</param>
+		public bool Upsert<T> (T record, IMongoQuery statement, string collection = "")
+		{
+			collection = String.IsNullOrEmpty (collection) ? _collectionName : collection;
+
+			return _database.GetCollection<T> (collection).SafeUpsert (record, statement);
+		}
 
         public bool UpdateRecord (AppModel record, string attribute, string key, string collection = "")
         {
@@ -180,7 +194,7 @@ namespace SharedLibrary.MongoDB
         /// <returns>Operation status. True if worked, false otherwise</returns>
         public bool AddToQueue (string appUrl)
         {
-            return _database.GetCollection<QueuedApp> (Consts.QUEUED_APPS_COLLECTION).SafeInsert (new QueuedApp { Url = appUrl, IsBusy = false});
+			return _database.GetCollection<QueuedApp> (Consts.QUEUED_APPS_COLLECTION).SafeUpsert (new QueuedApp { Url = appUrl, IsBusy = false }, Query.EQ("Url", appUrl));
         }
 
         /// <summary>

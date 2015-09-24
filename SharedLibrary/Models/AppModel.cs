@@ -8,7 +8,8 @@ namespace SharedLibrary.Models
 {
     // Serialization Models for App Data to be stored on MongoDB
     public class AppModel
-    {
+	{
+		[BsonIgnoreIfDefault]
         public ObjectId _id                    {get;set;}
         public DateTime ReferenceDate          {get;set;}
         public string   Url                    {get;set;}
