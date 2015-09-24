@@ -220,7 +220,7 @@ namespace PlayStoreWorker
                         }
 
                         // Inserting App into Mongo DB Database
-						if (!mongoDB.Upsert<AppModel>(parsedApp, Query.EQ("Url", appUrl)))
+						if (!mongoDB.UpsertKeyEq<AppModel>(parsedApp, "Url", appUrl))
                         {
                             ProcessingWorked = false;
                         }

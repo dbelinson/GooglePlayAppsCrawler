@@ -71,6 +71,11 @@ namespace SharedLibrary.MongoDB
 			return _database.GetCollection<T> (collection).SafeUpsert (record, statement);
 		}
 
+		public bool UpsertKeyEq<T> (T record, string key, string eq, string collection = "")
+		{
+			return Upsert<T> (record, Query.EQ (key, eq), collection);
+		}
+
         public bool UpdateRecord (AppModel record, string attribute, string key, string collection = "")
         {
             collection = String.IsNullOrEmpty (collection) ? _collectionName : collection;
