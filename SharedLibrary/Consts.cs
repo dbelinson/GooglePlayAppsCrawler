@@ -70,7 +70,7 @@ namespace SharedLibrary
         public static readonly int MAX_QUEUE_TRIES      = 5;
         
         // MongoDB - Remote Server
-		public static string MONGO_SERVER           { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["server"]; } }
+	/*	public static string MONGO_SERVER           { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["server"]; } }
 		public static string MONGO_PORT             { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["port"]; } }
 		public static string MONGO_USER             { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["user"]; } }
 		public static string MONGO_PASS             { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["password"]; } }
@@ -80,7 +80,21 @@ namespace SharedLibrary
 		public static string QUEUED_APPS_COLLECTION { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["queued-apps-collection"]; } }
 		public static string REVIEWERS_COLLECTION   { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["reviewers-collection"]; } }
 		public static string MONGO_AUTH_DB          { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["auth-db"]; } }
-        public static readonly int    MONGO_TIMEOUT          = 120000;
+        public static readonly int    MONGO_TIMEOUT          = 120000;*/
+
+        // MongoDB - Remote Server
+        public static string MONGO_SERVER { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return "localhost"; } }
+        public static string MONGO_PORT { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return "27017"; } }
+        public static string MONGO_USER { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["user"]; } }
+        public static string MONGO_PASS { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["password"]; } }
+        public static string MONGO_DATABASE { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["database"]; } }
+        public static string MONGO_COLLECTION { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["apps-collection"]; } }
+        public static string REVIEWS_COLLECTION { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["reviews-collection"]; } }
+        public static string QUEUED_APPS_COLLECTION { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["queued-apps-collection"]; } }
+        public static string REVIEWERS_COLLECTION { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["reviewers-collection"]; } }
+        public static string MONGO_AUTH_DB { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["auth-db"]; } }
+        public static readonly int MONGO_TIMEOUT = 220000;
+
 
         // Date Time Format
         public static readonly string DATE_FORMAT       = "yyyy MMMM dd";

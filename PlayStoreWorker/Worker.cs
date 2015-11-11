@@ -251,7 +251,15 @@ namespace PlayStoreWorker
                             extraAppsCounter++;
 
                             // Assembling Full app Url to check with database
-                            string fullExtraAppUrl = Consts.APP_URL_PREFIX + extraAppUrl;
+                            string fullExtraAppUrl;
+                            if (extraAppUrl.IndexOf ("https://play.google.com/") >= 0)
+                            {
+                                fullExtraAppUrl = extraAppUrl;
+                            }
+                            else
+                            {
+                                fullExtraAppUrl = Consts.APP_URL_PREFIX + extraAppUrl;
+                            }
 
                             // Checking if the app was either processed or queued to be processed already
                             if ((!mongoDB.AppProcessed (fullExtraAppUrl)) && (!mongoDB.IsAppOnQueue(extraAppUrl)))
