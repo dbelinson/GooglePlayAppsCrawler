@@ -71,6 +71,27 @@ namespace PlayStoreWorker
             string fullServerAddress = String.Join(":", Consts.MONGO_SERVER, Consts.MONGO_PORT);
             mongoDB.ConfigureDatabase (Consts.MONGO_USER, Consts.MONGO_PASS, Consts.MONGO_AUTH_DB, fullServerAddress, Consts.MONGO_TIMEOUT, Consts.MONGO_DATABASE, Consts.MONGO_COLLECTION);
 
+            /*
+            // populate min downloaded & max downloaded
+            int count = 0;
+            var apps = mongoDB.FindAll<AppModel>();
+            foreach(var a in apps)
+            {
+                a.FillMinAndMaxInstalls();
+                ++count;
+
+                if((count % 100) == 0)
+                {
+                    Console.WriteLine("updated {0}", count);
+                }
+
+                if (!mongoDB.UpsertKeyEq<AppModel>(a, "Url", a.Url))
+                {
+                    Console.WriteLine("UpsertKey failed");
+                }
+            }
+            */
+
             // Creating Instance of Web Requests Server
             WebRequests server = new WebRequests ();
             

@@ -338,7 +338,9 @@ namespace SharedLibrary
             // Parsing Physical Address (if available)
             currentNode = map.DocumentNode.SelectSingleNode (Consts.PHYSICAL_ADDRESS);
             parsedApp.PhysicalAddress = currentNode == null ? String.Empty : currentNode.InnerText.Replace("\n"," ").Trim ();
-            
+
+            parsedApp.FillMinAndMaxInstalls();
+
             return parsedApp;
         }
 

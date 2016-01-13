@@ -35,6 +35,38 @@ namespace KeenIOUploader
 
         private static int    _appsCounter = 0;
 
+
+        private static int SendEventsToKeep(Keen.Core.KeenClient keenClient, List<AppModel> eventsToSend, MongoDBWrapper mongoDB)
+        {
+            try
+            {
+                // Adding Event to Keen.IO
+                keenClient.AddEvents("PlayStore2014", eventsToSend);
+
+                // Incrementing Counter
+                _appsCounter += eventsToSend.Count;
+
+                // Console feedback Every 100 Processed Apps
+                if (_appsCounter % 100 == 0)
+                {
+                    Console.WriteLine("Uploaded : " + _appsCounter);
+                }
+
+                foreach (var e in eventsToSend)
+                {
+                    mongoDB.SetUpdated(e.Url);
+                }
+
+                return eventsToSend.Count;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("\n\t" + ex.Message);
+            }
+
+            return 0;
+        }
+
         static void Main (string[] args)
         {
             // Loading Keen.IO Keys and Misc. from Config File
@@ -53,29 +85,82 @@ namespace KeenIOUploader
             var projectSettings = new ProjectSettingsProvider (_keenIOProjectID, _keenIOMasterKey, _keenIOWriteKey, _keenIOReadKey);
             var keenClient      = new KeenClient (projectSettings);
 
+            var eventsToSend = new List<AppModel>();
+            long totalProcessed = 0;
+            long totalSent = 0;
+
+            DateTime start = DateTime.Now;
+
             // From This point on, you can change your code to reflect your own "Reading" logic
             // What I've done is simply read the records from the MongoDB database and Upload them to Keen.IO
+
+            // if(args.Length != 0 && args[0] == "reset")
+            {
+                int count = 0;
+
+                foreach (var currentApp in mongoDB.FindMatch<AppModel>(Query.NE("Uploaded", true)))
+                {
+                    mongoDB.SetUpdated(currentApp.Url, false);
+                    ++count;
+
+                    if((count % 100) == 0)
+                    {
+                        Console.WriteLine("Reset update for {0}", count);
+                    }
+                }
+            }
+
             foreach (var currentApp in mongoDB.FindMatch<AppModel> (Query.NE ("Uploaded", true)))
             {
-                try
+                if (eventsToSend.Count < 1000)
                 {
-                    // Adding Event to Keen.IO
-                    keenClient.AddEvent ("PlayStore2014", currentApp);
+                    eventsToSend.Add(currentApp);
+                    continue;
+                }
 
-                    // Incrementing Counter
-                    _appsCounter++;
+                var sent = SendEventsToKeep(keenClient, eventsToSend, mongoDB);
 
-                    // Console feedback Every 100 Processed Apps
-                    if (_appsCounter % 100 == 0)
+                totalProcessed += eventsToSend.Count;
+                totalSent += sent;
+
+                Console.WriteLine("processed {0} events took {1}: ({2} events per sec)", totalProcessed, DateTime.Now - start, ((double)totalProcessed) / (DateTime.Now - start).TotalSeconds);
+
+                eventsToSend.Clear();
+            }
+
+            {
+                var sent = SendEventsToKeep(keenClient, eventsToSend, mongoDB);
+                totalProcessed += eventsToSend.Count;
+                Console.WriteLine("processed {0} events took {1}: ({2} events per sec)", totalProcessed, DateTime.Now - start, ((double)totalProcessed) / (DateTime.Now - start).TotalSeconds); 
+            }
+
+            if(totalProcessed != totalSent)
+            {
+                totalProcessed = 0;
+                totalSent = 0;
+
+                foreach (var currentApp in mongoDB.FindMatch<AppModel>(Query.NE("Uploaded", true)))
+                {
+                    if (eventsToSend.Count < 1)
                     {
-                        Console.WriteLine ("Uploaded : " + _appsCounter);
+                        eventsToSend.Add(currentApp);
+                        continue;
                     }
 
-                    mongoDB.SetUpdated (currentApp.Url);
+                    var sent = SendEventsToKeep(keenClient, eventsToSend, mongoDB);
+
+                    totalProcessed += eventsToSend.Count;
+                    totalSent += sent;
+
+                    Console.WriteLine("processed {0} events took {1}: ({2} events per sec)", totalProcessed, DateTime.Now - start, ((double)totalProcessed) / (DateTime.Now - start).TotalSeconds);
+
+                    eventsToSend.Clear();
                 }
-                catch (Exception ex)
+
                 {
-                    Console.WriteLine ("\n\t" + ex.Message);
+                    var sent = SendEventsToKeep(keenClient, eventsToSend, mongoDB);
+                    totalProcessed += eventsToSend.Count;
+                    Console.WriteLine("processed {0} events took {1}: ({2} events per sec)", totalProcessed, DateTime.Now - start, ((double)totalProcessed) / (DateTime.Now - start).TotalSeconds);
                 }
             }
         }

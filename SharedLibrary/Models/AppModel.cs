@@ -45,7 +45,11 @@ namespace SharedLibrary.Models
 
         // Reviews Related Attributes
         public string   ReviewsStatus           {get;set;} 
-        public List<AppReview> Reviews          {get;set;} 
+        public List<AppReview> Reviews          {get;set;}
+        public bool Uploaded                    {get;set;}
+
+        public long MinDownloads { get; set; }
+        public long MaxDownloads { get; set; }
 
         // Class Constructor
         public AppModel ()
@@ -88,6 +92,39 @@ namespace SharedLibrary.Models
                                 ("\"" + DeveloperWebsite.Replace (",", "") + "\""),
                                 ("\"" + DeveloperPrivacyPolicy.Replace (",", "") + "\""),
                                 ("\"" + Description.Replace (",", "") + "\""));
+        }
+
+        public void FillMinAndMaxInstalls()
+        {
+            var splittedInstallations = Instalations.Split(new string[] { "-" }, StringSplitOptions.RemoveEmptyEntries);
+            if (splittedInstallations.Length > 2)
+                throw new Exception("unexpected installations number");
+
+            if(splittedInstallations.Length == 0)
+            {
+                return;
+            }
+
+            var minInstallsString = splittedInstallations[0].Trim().Replace(",", "");
+            Int64 minInstalls;
+            if (!Int64.TryParse(minInstallsString, out minInstalls))
+                throw new Exception("can't parse min installations number");
+
+            if(splittedInstallations.Length == 2)
+            {
+                var maxInstallsString = splittedInstallations[1].Trim().Replace(",", "");
+                Int64 maxInstalls;
+                if (!Int64.TryParse(maxInstallsString, out maxInstalls))
+                    throw new Exception("can't parse max installations number");
+
+                MaxDownloads = maxInstalls;
+            }
+            else
+            {
+                MaxDownloads = minInstalls;
+            }
+
+            MinDownloads = minInstalls;
         }
     }
 

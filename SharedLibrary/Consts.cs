@@ -83,8 +83,8 @@ namespace SharedLibrary
         public static readonly int    MONGO_TIMEOUT          = 120000;*/
 
         // MongoDB - Remote Server
-        public static string MONGO_SERVER { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return "localhost"; } }
-        public static string MONGO_PORT { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return "27017"; } }
+        public static string MONGO_SERVER { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["server"]; } }
+        public static string MONGO_PORT { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["port"]; } }
         public static string MONGO_USER { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["user"]; } }
         public static string MONGO_PASS { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["password"]; } }
         public static string MONGO_DATABASE { get { var mongo = ConfigurationManager.GetSection("mongoSettings") as NameValueCollection; return mongo["database"]; } }

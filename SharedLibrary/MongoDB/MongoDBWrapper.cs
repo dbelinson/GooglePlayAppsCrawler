@@ -298,11 +298,11 @@ namespace SharedLibrary.MongoDB
             _database.GetCollection (collection).CreateIndex (IndexKeys.Ascending (fieldName), IndexOptions.SetBackground (true));
         }
 
-        public void SetUpdated (string url)
+        public void SetUpdated (string url, bool uploaded = true)
         {
             var query = Query.EQ("Url", url);
 
-            _database.GetCollection (_collectionName).Update (query, Update.Set("Uploaded", true));
+            _database.GetCollection(_collectionName).Update(query, Update.Set("Uploaded", uploaded));
         }
     }
 }
