@@ -223,6 +223,9 @@ namespace SharedLibrary.MongoDB
                 return null;
             }
 
+            if (mongoResponse.ModifiedDocument == null)
+                return null;
+
             // Returns the app
             return BsonSerializer.Deserialize<QueuedApp> (mongoResponse.ModifiedDocument);
         }
